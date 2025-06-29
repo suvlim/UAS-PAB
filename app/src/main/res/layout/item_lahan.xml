@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/green_card">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/txvNamaLahan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lahan Sawah A"
+                android:textSize="8pt"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+            <ImageView
+                android:id="@+id/imvDetail"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/right_arrow" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/txvLokasiLahan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:textSize="5pt"
+            android:text="Desa X, Medan"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/txvPanen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Estimasi Panen : 20 hari"
+                android:textSize="5pt"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/txvKelembapan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="8pt"
+                android:text="500 ml"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
