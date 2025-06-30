@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/beranda"
+        android:title="Beranda" />
+    <item
+        android:id="@+id/navigation_statistik"
+        android:icon="@drawable/statistik"
+        android:title="Statistik" />
+    <item
+        android:id="@+id/navigation_lahan"
+        android:icon="@drawable/aturlahan"
+        android:title="Lahan" />
+</menu>
