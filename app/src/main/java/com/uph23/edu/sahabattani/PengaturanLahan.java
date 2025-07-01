@@ -15,6 +15,8 @@ import com.uph23.edu.sahabattani.model.Lahan;
 
 import java.util.ArrayList;
 
+import com.uph23.edu.sahabattani.R;
+
 public class PengaturanLahan extends AppCompatActivity {
     ListView listview;
     ArrayList<Lahan> lahanArrayList;
@@ -35,13 +37,13 @@ public class PengaturanLahan extends AppCompatActivity {
         listview = (ListView) findViewById(R.id.lsvLahan);
         lahanArrayList = new ArrayList<>();
 
-        Lahan lahan1 = new Lahan("A", "Desa X, Medan", 500, 30);
-        Lahan lahan2 = new Lahan("B", "Desa Y, Medan", 800, 150);
-        Lahan lahan3 = new Lahan("C", "Desa Z, Medan", 700, 20);
-
-        lahanArrayList.add(lahan1);
-        lahanArrayList.add(lahan2);
-        lahanArrayList.add(lahan3);
+//        Lahan lahan1 = new Lahan("A", "Desa X, Medan", 500, 30);
+//        Lahan lahan2 = new Lahan("B", "Desa Y, Medan", 800, 150);
+//        Lahan lahan3 = new Lahan("C", "Desa Z, Medan", 700, 20);
+//
+//        lahanArrayList.add(lahan1);
+//        lahanArrayList.add(lahan2);
+//        lahanArrayList.add(lahan3);
 
         adapter = new LahanAdapter(lahanArrayList, getApplicationContext());
         listview.setAdapter(adapter);

@@ -16,6 +16,7 @@
         android:backgroundTint="#336633"
         app:tint="@color/white"
         android:layout_margin="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
     <LinearLayout
