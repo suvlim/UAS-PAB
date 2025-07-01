@@ -10,6 +10,12 @@ public class Lahan extends RealmObject {
         private int panen;
         private String jenisTanaman;
 
+        public Lahan(){
+
+        }
+
+
+
     public String getNamaLahan() {
         return namaLahan;
     }

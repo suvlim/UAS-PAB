@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AturSensorTambah">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="413dp"
+        android:layout_height="66dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="Atur Sensor"
+            android:textColor="@color/black"
+            android:textSize="8pt"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_green"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconSize="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="408dp"
+        android:layout_height="647dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:layout_editor_absoluteX="2dp">
+
+        <ImageView
+            android:id="@+id/imvlocation"
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            app:srcCompat="@drawable/location"
+            tools:layout_editor_absoluteX="168dp"
+            tools:layout_editor_absoluteY="85dp" />
+
+        <LinearLayout
+            android:layout_width="393dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            tools:layout_editor_absoluteX="9dp"
+            tools:layout_editor_absoluteY="191dp">
+
+            <TextView
+                android:id="@+id/sensor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sensor Id"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                tools:layout_editor_absoluteX="46dp"
+                tools:layout_editor_absoluteY="192dp" />
+
+            <EditText
+                android:id="@+id/msknSensor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan Sensor Id"
+                android:inputType="text"
+                android:paddingBottom="15dp"
+                tools:layout_editor_absoluteX="44dp"
+                tools:layout_editor_absoluteY="219dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/longitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:text="Longitude"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    tools:layout_editor_absoluteX="46dp"
+                    tools:layout_editor_absoluteY="297dp" />
+
+                <EditText
+                    android:id="@+id/longitudeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edittext_border"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="15dp"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:layout_editor_absoluteY="219dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/lalitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingRight="36dp"
+                    android:text="Latitude"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    tools:layout_editor_absoluteX="46dp"
+                    tools:layout_editor_absoluteY="297dp" />
+
+                <EditText
+                    android:id="@+id/latitudeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edittext_border"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="15dp"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:layout_editor_absoluteY="219dp" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/lahan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp"
+                android:text="Lahan"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                tools:layout_editor_absoluteX="46dp"
+                tools:layout_editor_absoluteY="418dp" />
+
+            <EditText
+                android:id="@+id/msknNamaLahan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan Nama Lahan"
+                android:inputType="text"
+                tools:layout_editor_absoluteX="44dp"
+                tools:layout_editor_absoluteY="445dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="392dp"
+            android:layout_height="65dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="114dp"
+                android:layout_height="58dp"
+                android:backgroundTint="@color/dark_green"
+                android:text="Simpan"
+                android:textSize="17dp"
+                tools:layout_editor_absoluteX="267dp"
+                tools:layout_editor_absoluteY="540dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
