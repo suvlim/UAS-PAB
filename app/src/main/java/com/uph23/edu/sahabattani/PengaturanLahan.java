@@ -1,5 +1,6 @@
 package com.uph23.edu.sahabattani;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -10,6 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.uph23.edu.sahabattani.adapter.LahanAdapter;
 import com.uph23.edu.sahabattani.model.Lahan;
 
@@ -19,6 +21,7 @@ import com.uph23.edu.sahabattani.R;
 
 public class PengaturanLahan extends AppCompatActivity {
     ListView listview;
+    FloatingActionButton fabTambahLahan;
     ArrayList<Lahan> lahanArrayList;
     private static ArrayAdapter adapter;
 
@@ -35,7 +38,12 @@ public class PengaturanLahan extends AppCompatActivity {
 
         });
         listview = (ListView) findViewById(R.id.lsvLahan);
+        fabTambahLahan =findViewById(R.id.fabTambahLahan);
         lahanArrayList = new ArrayList<>();
+        fabTambahLahan.setOnClickListener(v -> {
+            toTambahLahan();
+        });
+
 
 //        Lahan lahan1 = new Lahan("A", "Desa X, Medan", 500, 30);
 //        Lahan lahan2 = new Lahan("B", "Desa Y, Medan", 800, 150);
@@ -47,5 +55,10 @@ public class PengaturanLahan extends AppCompatActivity {
 
         adapter = new LahanAdapter(lahanArrayList, getApplicationContext());
         listview.setAdapter(adapter);
+
+    }
+    public void toTambahLahan(){
+        Intent intent = new Intent(this,TambahLahan.class);
+        startActivity(intent);
     }
 }

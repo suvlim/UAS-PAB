@@ -16,6 +16,7 @@ public class Lahan extends RealmObject {
 
 
 
+
     public String getNamaLahan() {
         return namaLahan;
     }

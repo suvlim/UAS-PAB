@@ -55,7 +55,7 @@
         <ImageView
             android:id="@+id/imvlocation"
             android:layout_width="match_parent"
-            android:layout_height="71dp"
+            android:layout_height="59dp"
             app:srcCompat="@drawable/location"
             tools:layout_editor_absoluteX="168dp"
             tools:layout_editor_absoluteY="85dp" />

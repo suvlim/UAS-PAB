@@ -6,26 +6,102 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TambahLahan">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tambah Lahan"
-        android:textColor="@color/black"
-        android:paddingLeft="20dp"
-        android:textStyle="bold"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:textSize="8pt"
-
-        />
-        <ImageView
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:text="Tambah Lahan"
+                android:textColor="@color/black"
+                android:textSize="8pt"
+                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imvtutup"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/close"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/imageViewLahan"
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/maps" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="20dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" Nama Lahan :"
+                android:textColor="@color/black"
+                android:textSize="6pt" />
+
+            <EditText
+                android:id="@+id/edtNamaLahan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"
+                android:hint="Masukkan Nama Lahan" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" Lokasi Lahan :"
+                android:textColor="@color/black"
+                android:textSize="6pt"
+                android:layout_marginTop="10dp"/>
+
+            <EditText
+                android:id="@+id/edtLokasiLahan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"
+                android:hint="Masukkan Lokasi Lahan (Manual)" />
+        </LinearLayout>
     </LinearLayout>
+    <Button
+        android:id="@+id/btnTambahLahan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tambah"
+        android:backgroundTint="@color/dark_green"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/dark_green"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconSize="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
