@@ -158,9 +158,9 @@
                         android:background="@android:color/transparent"
                         android:clickable="true"
                         android:focusable="false"
-
                         android:hint="Tanggal"
                         android:singleLine="true" />
+                    
                 </LinearLayout>
 
                 <TextView
