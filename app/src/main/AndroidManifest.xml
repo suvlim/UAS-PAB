@@ -13,10 +13,10 @@
         android:theme="@style/Theme.SahabatTani"
         tools:targetApi="31">
         <activity
-            android:name=".laporanActivity"
+            android:name=".PengaturanLahan"
             android:exported="false" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".laporanActivity"
             android:exported="false" />
         <activity
             android:name=".PengaturanDetailLahan"
@@ -44,7 +44,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".PengaturanLahan"
+            android:name=".DashboardActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SahabatTani">

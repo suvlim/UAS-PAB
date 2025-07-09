@@ -18,24 +18,28 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dashboard);
-//        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-//        bottomNav.setSelectedItemId(R.id.navigation_home); // tandai aktif
-//
-//        bottomNav.setOnItemSelectedListener(item -> {
-//            switch (item.getItemId()) {
-//                case R.id.navigation_home:
-//                    return true; // sudah di halaman ini
-//
-//                case R.id.navigation_lahan:
-//                    startActivity(new Intent(getApplicationContext(), PengaturanLahan.class));
-//                    overridePendingTransition(0, 0);
-//                    return true;
-//                case R.id.navigation_statistik:
-//                    startActivity(new Intent(getApplicationContext(), StatistikActivity.class));
-//                    overridePendingTransition(0, 0);
-//                    return true;
-//            }
-//            return false;
-//        });
+
+        //Pengaturan Bottom NavBar
+        BottomNavigationView btmNav = findViewById(R.id.bottom_nav);
+        //Set Halaman Home
+        btmNav.setSelectedItemId(R.id.navigation_home);
+        btmNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.navigation_home) {
+                return true;
+                //Pindah ke halaman lahan
+            } else if (itemId == R.id.navigation_lahan) {
+                startActivity(new Intent(getApplicationContext(), PengaturanLahan.class));
+                overridePendingTransition(0, 0);
+                return true;
+                //Pindah ke halaman laporan statistik
+            } else if (itemId == R.id.navigation_statistik) {
+                startActivity(new Intent(getApplicationContext(), laporanActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
+        });
+
     }
 }
