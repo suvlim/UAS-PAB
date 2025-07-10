@@ -2,6 +2,8 @@ package com.uph23.edu.sahabattani;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class DashboardActivity extends AppCompatActivity {
-
+    LinearLayout llyTambahLahan, llyAturSensor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,5 +43,29 @@ public class DashboardActivity extends AppCompatActivity {
             return false;
         });
 
+        llyTambahLahan = findViewById(R.id.llyTambahLahan);
+        llyTambahLahan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toTambahLahan();
+            }
+        });
+
+        llyAturSensor = findViewById(R.id.llyAturSensor);
+        llyAturSensor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toAturSensor();
+            }
+        });
+    }
+    public void toTambahLahan(){
+        Intent intent = new Intent(this, TambahLahan.class);
+        startActivity(intent);
+    }
+
+    public void toAturSensor(){
+        Intent intent = new Intent(this, AturSensor.class);
+        startActivity(intent);
     }
 }
