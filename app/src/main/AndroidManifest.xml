@@ -34,7 +34,7 @@
             android:name=".TambahLahan"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".DashboardActivity"
             android:exported="false"
             android:theme="@style/Theme.SahabatTani" />
         <activity
@@ -47,7 +47,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".SplashScreen"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SahabatTani">

@@ -11,7 +11,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class SplashScreen extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +27,19 @@ public class SplashScreen extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        getSupportActionBar().hide();
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 finish();
                 }
         ,3000);
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("default.realm")
+                .schemaVersion(1)
+                .allowWritesOnUiThread(true) // sementara aktifkan untuk demo
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
     }
 }

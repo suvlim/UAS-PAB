@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +15,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.uph23.edu.sahabattani.model.User;
+
+import io.realm.Realm;
+
 public class LoginActivity extends AppCompatActivity {
     TextView txvDaftar;
+    EditText edtAkun,edtPassword;
+    Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +33,19 @@ public class LoginActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        edtAkun = findViewById(R.id.edtAkun);
+        edtPassword = findViewById(R.id.edtPassword);
+        btnLogin = findViewById(R.id.btnLogin);
+
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validateInput()){
+                    loginUser();
+                }
+            }
         });
         txvDaftar = findViewById(R.id.txvDaftar);
         txvDaftar.setOnClickListener(new View.OnClickListener() {
@@ -36,5 +58,52 @@ public class LoginActivity extends AppCompatActivity {
     public void toRegister(){
         Intent intent = new Intent(this,RegisterActivity.class);
         startActivity(intent);
+    }
+    public void toDashboard(){
+        Intent intent = new Intent(this, DashboardActivity.class);
+        startActivity(intent);
+    }
+    public boolean validateInput() {
+        boolean isValid = true;
+        String username = edtAkun.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+
+        if (username.isEmpty()) {
+            isValid = false;
+            Toast.makeText(this, "Username tidak boleh kosong", Toast.LENGTH_SHORT).show();
+        }
+        if (password.isEmpty()) {
+            isValid = false;
+            Toast.makeText(this, "Password tidak boleh kosong", Toast.LENGTH_SHORT).show();
+        }
+        return isValid;
+    }
+    private void loginUser(){
+        String username = edtAkun.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+        Realm realm = Realm.getDefaultInstance();
+        User user = realm.where(User.class).equalTo("username",username).findFirst();
+
+        if(user != null){
+            if(user.getPassword().equals(password)){
+                toDashboard();
+                finish();
+            }
+            else{
+                Toast.makeText(this, "Password salah", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            Toast.makeText(this, "Username tidak ditemukan", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        Realm realm = Realm.getDefaultInstance();
+        super.onDestroy();
+        // Close the Realm instance when the activity is destroyed
+        if (realm != null) {
+            realm.close();
+        }
     }
 }
