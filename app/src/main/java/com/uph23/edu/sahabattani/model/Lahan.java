@@ -2,34 +2,44 @@ package com.uph23.edu.sahabattani.model;
 
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Lahan extends RealmObject {
-        private String namaLahan;
-        private String lokasiLahan;
-        private int kelembapan;
-        private int panen;
-        private String jenisTanaman;
+    @PrimaryKey
+    private int id;
+    private String namaLahan;
+    private String lokasiLahan;
+    private String jenisTanaman;
+    private String tanggalTanam;
+    private String estimasiPanen;
+    private String kelembapanTanah;
 
-        public Lahan(){
-
-        }
-
-
-
-
-    public String getNamaLahan() {
-        return namaLahan;
+    public Lahan() {
     }
 
     @Override
     public String toString() {
         return "Lahan{" +
-                "namaLahan='" + namaLahan + '\'' +
+                "id=" + id +
+                ", namaLahan='" + namaLahan + '\'' +
                 ", lokasiLahan='" + lokasiLahan + '\'' +
-                ", kelembapan=" + kelembapan +
-                ", panen=" + panen +
                 ", jenisTanaman='" + jenisTanaman + '\'' +
+                ", tanggalTanam='" + tanggalTanam + '\'' +
+                ", estimasiPanen='" + estimasiPanen + '\'' +
+                ", kelembapanTanah='" + kelembapanTanah + '\'' +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNamaLahan() {
+        return namaLahan;
     }
 
     public void setNamaLahan(String namaLahan) {
@@ -44,22 +54,6 @@ public class Lahan extends RealmObject {
         this.lokasiLahan = lokasiLahan;
     }
 
-    public int getKelembapan() {
-        return kelembapan;
-    }
-
-    public void setKelembapan(int kelembapan) {
-        this.kelembapan = kelembapan;
-    }
-
-    public int getPanen() {
-        return panen;
-    }
-
-    public void setPanen(int panen) {
-        this.panen = panen;
-    }
-
     public String getJenisTanaman() {
         return jenisTanaman;
     }
@@ -68,11 +62,39 @@ public class Lahan extends RealmObject {
         this.jenisTanaman = jenisTanaman;
     }
 
-    public Lahan(String namaLahan, String lokasiLahan, int kelembapan, int panen, String jenisTanaman) {
+    public String getTanggalTanam() {
+        return tanggalTanam;
+    }
+
+    public void setTanggalTanam(String tanggalTanam) {
+        this.tanggalTanam = tanggalTanam;
+    }
+
+    public String getEstimasiPanen() {
+        return estimasiPanen;
+    }
+
+    public void setEstimasiPanen(String estimasiPanen) {
+        this.estimasiPanen = estimasiPanen;
+    }
+
+    public String getKelembapanTanah() {
+        return kelembapanTanah;
+    }
+
+    public void setKelembapanTanah(String kelembapanTanah) {
+        this.kelembapanTanah = kelembapanTanah;
+    }
+
+    public Lahan(int id, String namaLahan, String lokasiLahan, String jenisTanaman, String tanggalTanam, String estimasiPanen, String kelembapanTanah) {
+        this.id = id;
         this.namaLahan = namaLahan;
         this.lokasiLahan = lokasiLahan;
-        this.kelembapan = kelembapan;
-        this.panen = panen;
         this.jenisTanaman = jenisTanaman;
+        this.tanggalTanam = tanggalTanam;
+        this.estimasiPanen = estimasiPanen;
+        this.kelembapanTanah = kelembapanTanah;
     }
 }
+
+

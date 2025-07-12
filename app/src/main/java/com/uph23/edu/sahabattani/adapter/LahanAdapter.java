@@ -13,52 +13,73 @@ import androidx.annotation.Nullable;
 import com.uph23.edu.sahabattani.R;
 import com.uph23.edu.sahabattani.model.Lahan;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class LahanAdapter extends ArrayAdapter<Lahan> {
-    private ArrayList<Lahan> lahanArrayList;
-    Context context;
 
-    public LahanAdapter(ArrayList<Lahan> lahanArrayList, Context context) {
-        super(context, R.layout.item_lahan, lahanArrayList);
-        this.lahanArrayList = lahanArrayList;
+    private Context context;
+    private ArrayList<Lahan> lahanList;
+
+    public LahanAdapter(@NonNull Context context, @NonNull ArrayList<Lahan> lahanList) {
+        super(context, R.layout.item_lahan, lahanList);
         this.context = context;
+        this.lahanList = lahanList;
     }
-    private static class MyViewHolder{
-        static TextView txvNamaLahan;
-        static TextView txvLokasiLahan;
-        static TextView txvKelembapan;
-        static TextView txvPanen;
 
-
+    private static class ViewHolder {
+        TextView txvNamaLahan;
+        TextView txvLokasiLahan;
+        TextView txvKelembapan;
+        TextView txvPanen;
+        TextView txvJenisTanaman;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Lahan lahan = getItem(position);
-        final View results;
-        MyViewHolder myViewHolder;
+        ViewHolder holder;
 
-        if (convertView==null) {
-            myViewHolder = new MyViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(getContext());
+        if (convertView == null) {
+            holder = new ViewHolder();
+            LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.item_lahan, parent, false);
 
-            MyViewHolder.txvNamaLahan = (TextView) convertView.findViewById(R.id.txvNamaLahan);
-            MyViewHolder.txvLokasiLahan = (TextView) convertView.findViewById(R.id.txvLokasiLahan);
-            MyViewHolder.txvKelembapan = (TextView) convertView.findViewById(R.id.txvKelembapan);
-            MyViewHolder.txvPanen = (TextView) convertView.findViewById(R.id.txvPanen);
-            convertView.setTag(myViewHolder);
+            holder.txvNamaLahan = convertView.findViewById(R.id.txvNamaLahan);
+            holder.txvLokasiLahan = convertView.findViewById(R.id.txvLokasiLahan);
+            holder.txvKelembapan = convertView.findViewById(R.id.txvKelembapan);
+            holder.txvPanen = convertView.findViewById(R.id.txvPanen);
+            holder.txvJenisTanaman = convertView.findViewById(R.id.txvJenisTanaman);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-        else{
-            myViewHolder = (MyViewHolder) convertView.getTag();
+
+        if (lahan != null) {
+            holder.txvNamaLahan.setText("Lahan Sawah " + lahan.getNamaLahan());
+            holder.txvLokasiLahan.setText(lahan.getLokasiLahan());
+            holder.txvKelembapan.setText(lahan.getKelembapanTanah() + " mL");
+            int sisaHari = hitungSisaHariPanen(lahan.getEstimasiPanen());
+            holder.txvPanen.setText("Estimasi Panen : " + sisaHari + " hari");
+            holder.txvJenisTanaman.setText(lahan.getJenisTanaman());
         }
-        results = convertView;
-        myViewHolder.txvNamaLahan.setText("Lahan Sawah " + lahan.getNamaLahan());
-        myViewHolder.txvLokasiLahan .setText(lahan.getLokasiLahan());
-        myViewHolder.txvKelembapan.setText(lahan.getKelembapan() + " ml");
-        myViewHolder.txvPanen.setText("Estimasi Panen : " + lahan.getPanen() + "hari");
-        return results;
+
+        return convertView;
+    }
+
+    private int hitungSisaHariPanen(String tanggalEstimasiPanen) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+            LocalDate panenDate = LocalDate.parse(tanggalEstimasiPanen, formatter);
+            LocalDate today = LocalDate.now();
+            long days = ChronoUnit.DAYS.between(today, panenDate);
+            return (int) Math.max(days, 0);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

@@ -10,8 +10,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AturSensor extends AppCompatActivity {
+    FloatingActionButton fabTambahSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,12 @@ public class AturSensor extends AppCompatActivity {
             }
             return false;
         });
+        //Tambah dan Pindah Ke Halaman Atur Sensor Tambah
+        fabTambahSensor = findViewById(R.id.fabTambahSensorLahan);
+        fabTambahSensor.setOnClickListener(view -> {
+            toTambahSensor();
+
+        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -49,6 +57,9 @@ public class AturSensor extends AppCompatActivity {
 
 
         });
-
+    }
+    public void toTambahSensor(){
+        Intent intent = new Intent(this,AturSensorTambah.class);
+        startActivity(intent);
     }
 }

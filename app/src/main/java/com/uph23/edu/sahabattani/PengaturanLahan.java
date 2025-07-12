@@ -20,17 +20,25 @@ import java.util.ArrayList;
 
 import com.uph23.edu.sahabattani.R;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
+
 public class PengaturanLahan extends AppCompatActivity {
-    ListView listview;
+    Realm realm;
+    LahanAdapter adapter;
+    ListView listView;
     FloatingActionButton fabTambahLahan;
     ArrayList<Lahan> lahanArrayList;
-    private static ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pengaturan_lahan);
+
+
+
         //Pengaturan Bottom NavBar
         BottomNavigationView btmNav = findViewById(R.id.bottom_nav);
         //Set Halaman Lahan
@@ -52,33 +60,51 @@ public class PengaturanLahan extends AppCompatActivity {
             }
             return false;
         });
+
+        // Inisialisasi Realm
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .schemaVersion(1)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
+
+        realm = Realm.getDefaultInstance();
+
+
+        // Inisialisasi ListView
+        listView = findViewById(R.id.lsvLahan);
+
+        // Ambil data dari Realm
+        RealmResults<Lahan> results = realm.where(Lahan.class).findAll();
+        lahanArrayList = new ArrayList<>(realm.copyFromRealm(results));
+
+        // Inisialisasi dan set Adapter
+        adapter = new LahanAdapter(this, lahanArrayList);
+        listView.setAdapter(adapter);
+
+
+        //Fungsi Tambah Lahan
+        fabTambahLahan = findViewById(R.id.fabTambahLahan);
+        fabTambahLahan.setOnClickListener(view -> {
+            toTambahLahan();
+
+        });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
 
-
         });
-        listview = (ListView) findViewById(R.id.lsvLahan);
-        fabTambahLahan =findViewById(R.id.fabTambahLahan);
-        lahanArrayList = new ArrayList<>();
-        fabTambahLahan.setOnClickListener(v -> {
-            toTambahLahan();
-        });
-
-
-//        Lahan lahan1 = new Lahan("A", "Desa X, Medan", 500, 30);
-//        Lahan lahan2 = new Lahan("B", "Desa Y, Medan", 800, 150);
-//        Lahan lahan3 = new Lahan("C", "Desa Z, Medan", 700, 20);
-//
-//        lahanArrayList.add(lahan1);
-//        lahanArrayList.add(lahan2);
-//        lahanArrayList.add(lahan3);
-
-        adapter = new LahanAdapter(lahanArrayList, getApplicationContext());
-        listview.setAdapter(adapter);
-
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (realm != null && !realm.isClosed()) {
+            realm.close();
+        }
+    }
+
     public void toTambahLahan(){
         Intent intent = new Intent(this,TambahLahan.class);
         startActivity(intent);

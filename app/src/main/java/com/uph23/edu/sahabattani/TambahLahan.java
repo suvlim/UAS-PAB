@@ -67,9 +67,6 @@ public class TambahLahan extends AppCompatActivity {
                 toTambahDetailLahan();
             }
         });
-
-
-
     }
 
     public void toPengaturanLahan(){
@@ -78,6 +75,11 @@ public class TambahLahan extends AppCompatActivity {
     }
     public void toTambahDetailLahan(){
         Intent intent = new Intent(this,TambahDetailLahan.class);
+        //Kirim Data Nama dan Lokasi Lahan ke Detail Lahan
+        String namaLahan = edtNamaLahan.getText().toString();
+        String lokasiLahan = edtLokasiLahan.getText().toString();
+        intent.putExtra("namaLahan", namaLahan);
+        intent.putExtra("lokasiLahan", lokasiLahan);
         startActivity(intent);
     }
 

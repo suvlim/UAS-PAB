@@ -59,6 +59,7 @@
                     android:padding="16dp">
 
                     <TextView
+                        android:id="@+id/txvNamaLahan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Lahan Sawah A"
@@ -67,6 +68,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/txvLokasiLahan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Desa X, Medan"
@@ -74,6 +76,7 @@
                         android:textColor="@android:color/white" />
 
                     <TextView
+                        android:id="@+id/txvEstimasiPanen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Estimasi Panen: --"
@@ -114,7 +117,7 @@
                         app:iconGravity="textStart"
                         app:backgroundTint="@android:color/white"
                         app:iconSize="25dp"
-                        app:iconTint="@color/black"
+                        app:iconTint="@null"
                         android:textColor="@color/black"/>
 
                     <com.google.android.material.button.MaterialButton
@@ -130,7 +133,7 @@
                         app:iconSize="25dp"
                         app:iconGravity="textStart"
                         app:backgroundTint="@android:color/white"
-                        app:iconTint="@color/black"
+                        app:iconTint="@null"
                         android:textColor="@color/black"/>
 
                 </LinearLayout>
@@ -208,7 +211,7 @@
                     android:padding="8dp">
 
                     <EditText
-                        android:id="@+id/et_kelembapan_tanah"
+                        android:id="@+id/edt_kelembapan_tanah"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -223,13 +226,13 @@
                         android:text="ml" />
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="Rekomendasi: 500 ml"
-                    android:textSize="12sp" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:layout_marginBottom="16dp"-->
+<!--                    android:text="Rekomendasi: 500 ml"-->
+<!--                    android:textSize="12sp" />-->
 
             </LinearLayout>
 
