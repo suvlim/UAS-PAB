@@ -90,6 +90,15 @@ public class PengaturanLahan extends AppCompatActivity {
             toTambahLahan();
 
         });
+
+        //Mengarahkan User Ke Detail Lahan
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Lahan selectedLahan = lahanArrayList.get(position);
+            Intent intent = new Intent(PengaturanLahan.this, DetailLahan.class);
+            intent.putExtra("lahanId", selectedLahan.getId());
+            //Kirim Id Lahan ke Halam detail Lahan
+            startActivity(intent);
+        });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -103,6 +112,19 @@ public class PengaturanLahan extends AppCompatActivity {
         if (realm != null && !realm.isClosed()) {
             realm.close();
         }
+    }
+    //Refresh Data untuk menampilkan listview terbaru
+    private void loadDataLahan() {
+        RealmResults<Lahan> results = realm.where(Lahan.class).findAll();
+        lahanArrayList.clear();
+        lahanArrayList.addAll(realm.copyFromRealm(results));
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadDataLahan();
     }
 
     public void toTambahLahan(){

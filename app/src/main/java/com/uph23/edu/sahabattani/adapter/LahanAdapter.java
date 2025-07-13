@@ -62,10 +62,15 @@ public class LahanAdapter extends ArrayAdapter<Lahan> {
         if (lahan != null) {
             holder.txvNamaLahan.setText("Lahan Sawah " + lahan.getNamaLahan());
             holder.txvLokasiLahan.setText(lahan.getLokasiLahan());
-            holder.txvKelembapan.setText(lahan.getKelembapanTanah() + " mL");
+            holder.txvKelembapan.setText(
+                    lahan.getKelembapanTanah() != null ? lahan.getKelembapanTanah() + " mL" : "-"
+            );
+
             int sisaHari = hitungSisaHariPanen(lahan.getEstimasiPanen());
             holder.txvPanen.setText("Estimasi Panen : " + sisaHari + " hari");
             holder.txvJenisTanaman.setText(lahan.getJenisTanaman());
+
+
         }
 
         return convertView;

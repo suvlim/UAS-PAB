@@ -13,10 +13,13 @@
         android:theme="@style/Theme.SahabatTani"
         tools:targetApi="31">
         <activity
+            android:name=".DetailLahan"
+            android:exported="false" />
+        <activity
             android:name=".AturSensor"
             android:exported="false" />
         <activity
-            android:name=".PengaturanLahan"
+            android:name=".SplashScreen"
             android:exported="false" />
         <activity
             android:name=".laporanActivity"
@@ -47,7 +50,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".PengaturanLahan"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SahabatTani">
