@@ -24,6 +24,7 @@
             android:textStyle="bold" />
 
         <ListView
+            android:id="@+id/lsvSensor"
             android:layout_width="match_parent"
             android:layout_height="454dp" />
 

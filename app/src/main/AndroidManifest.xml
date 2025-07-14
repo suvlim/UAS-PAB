@@ -19,7 +19,7 @@
             android:name=".AturSensor"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".PengaturanLahan"
             android:exported="false" />
         <activity
             android:name=".laporanActivity"
@@ -50,7 +50,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".PengaturanLahan"
+            android:name=".SplashScreen"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SahabatTani">

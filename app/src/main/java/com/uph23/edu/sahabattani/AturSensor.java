@@ -2,6 +2,9 @@ package com.uph23.edu.sahabattani;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +14,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.uph23.edu.sahabattani.adapter.SensorAdapter;
+import com.uph23.edu.sahabattani.model.Sensor;
+
+import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 public class AturSensor extends AppCompatActivity {
+
     FloatingActionButton fabTambahSensor;
 
     @Override
@@ -54,12 +66,30 @@ public class AturSensor extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
 
-
-
         });
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("default.realm")
+                .schemaVersion(1)
+                .allowWritesOnUiThread(true) // sementara aktifkan untuk demo
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
+        Realm realm = Realm.getDefaultInstance();
+        final ArrayList<Sensor> arrayList = new ArrayList<>();
+
+        RealmResults<Sensor> results = realm.where(Sensor.class).findAll();
+        if (results != null) {
+            arrayList.addAll(realm.copyFromRealm(results));
+        }
+
+        SensorAdapter numbersArrayAdapter = new SensorAdapter(this, arrayList);
+        ListView numbersListView = findViewById(R.id.lsvSensor);
+        numbersListView.setAdapter(numbersArrayAdapter);
+        results.addChangeListener(mhs -> numbersArrayAdapter.notifyDataSetChanged());
     }
     public void toTambahSensor(){
         Intent intent = new Intent(this,AturSensorTambah.class);
         startActivity(intent);
-    }
+}
 }
