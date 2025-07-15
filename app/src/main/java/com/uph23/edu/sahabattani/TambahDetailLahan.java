@@ -2,6 +2,8 @@ package com.uph23.edu.sahabattani;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.uph23.edu.sahabattani.model.Lahan;
 
 import java.util.Calendar;
@@ -32,7 +35,8 @@ public class TambahDetailLahan extends AppCompatActivity {
     String  jenisTanaman, tanggalMulaiTanam, tanggalEstimasiPanen, kelembapanTanah, estimasiPanen;
     Calendar tanggalTanam;
     EditText edtAwalPenanaman, edt_kelembapan_tanah;
-    Button btn_simpan, btn_padi, btn_jagung;
+    Button btn_simpan;
+    MaterialButton btn_padi, btn_jagung;
     TextView txvNamaLahan, txvLokasiLahan, txvEstimasiPanen, txv_prediksi_panen;
 
     @Override
@@ -88,9 +92,33 @@ public class TambahDetailLahan extends AppCompatActivity {
         String lokasiLahan = getIntent().getStringExtra("lokasiLahan");
         txvLokasiLahan.setText(lokasiLahan);
 
-//        Set String Jenis tanaman berdasarkan tombol yang diklik
-        btn_padi.setOnClickListener(v -> jenisTanaman = "Padi");
-        btn_jagung.setOnClickListener(v -> jenisTanaman = "Jagung");
+        //Buat Warna Khusus Untuk Menandakan Saat Tombol Ditekan
+        int warnaAktif = getResources().getColor(R.color.forest_green);
+        int warnaDefault = getResources().getColor(android.R.color.white);
+        int warnaTextAktif = getResources().getColor(android.R.color.white);
+        int warnaTextDefault = getResources().getColor(R.color.black);
+
+        //Set String Jenis tanaman berdasarkan tombol yang diklik
+        btn_padi.setOnClickListener(v -> {
+            jenisTanaman = "Padi";
+            //Ganti Warna Tombol Padi
+            btn_padi.setBackgroundTintList(ColorStateList.valueOf(warnaAktif));
+            btn_jagung.setBackgroundTintList(ColorStateList.valueOf(warnaDefault));
+            btn_padi.setTextColor(warnaTextAktif);
+            btn_jagung.setTextColor(warnaTextDefault);
+            btn_padi.setIconTint(ColorStateList.valueOf(Color.WHITE));
+            btn_jagung.setIconTint(ColorStateList.valueOf(Color.BLACK));
+        });
+        btn_jagung.setOnClickListener(v -> {
+            jenisTanaman = "Jagung";
+            //Ganti Warna Tombol Jagung
+            btn_jagung.setBackgroundTintList(ColorStateList.valueOf(warnaAktif));
+            btn_padi.setBackgroundTintList(ColorStateList.valueOf(warnaDefault));
+            btn_jagung.setTextColor(warnaTextAktif);
+            btn_padi.setTextColor(warnaTextDefault);
+            btn_jagung.setIconTint(ColorStateList.valueOf(Color.WHITE));
+            btn_padi.setIconTint(ColorStateList.valueOf(Color.BLACK));
+        });
 
         //Set Kelembapan Tanah
         kelembapanTanah = edt_kelembapan_tanah.getText().toString();

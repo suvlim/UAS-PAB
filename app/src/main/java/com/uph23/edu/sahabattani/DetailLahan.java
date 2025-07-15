@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.uph23.edu.sahabattani.adapter.HistoryTanamAdapter;
 import com.uph23.edu.sahabattani.model.HistoryTanam;
 import com.uph23.edu.sahabattani.model.Lahan;
@@ -27,10 +28,11 @@ import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class DetailLahan extends AppCompatActivity {
     TextView txvDetailNamaLahan, txvDetailLokasiLahan, txvJenisTanaman, txvTanggalTanam, txvEstimasiPanen;
-    Button btnEdit, btnPanen;
+    Button btnTanam, btnPanen;
     ImageView imvDeleteLahan, imvtutup;
     ListView lsvHistoryTanam;
 
@@ -44,6 +46,28 @@ public class DetailLahan extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_detail_lahan);
 
+        //Pengaturan Bottom NavBar
+        BottomNavigationView btmNav = findViewById(R.id.bottom_nav);
+        //Set Halaman Lahan
+        btmNav.setSelectedItemId(R.id.navigation_lahan);
+        btmNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.navigation_lahan) {
+                return true;
+                //Pindah ke halaman Dashboard
+            } else if (itemId == R.id.navigation_home) {
+                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+                //Pindah ke halaman laporan statistik
+            } else if (itemId == R.id.navigation_statistik) {
+                startActivity(new Intent(getApplicationContext(), laporanActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
+        });
+
         realm = Realm.getDefaultInstance();
 
         // Ambil ID lahan dari intent
@@ -51,12 +75,13 @@ public class DetailLahan extends AppCompatActivity {
         lahan = realm.where(Lahan.class).equalTo("id", lahanId).findFirst();
 
 
+
         txvDetailNamaLahan = findViewById(R.id.txvDetailNamaLahan);
         txvDetailLokasiLahan = findViewById(R.id.txvDetailLokasiLahan);
         txvJenisTanaman = findViewById(R.id.txvJenisTanaman);
         txvTanggalTanam = findViewById(R.id.txvTanggalTanam);
         txvEstimasiPanen = findViewById(R.id.txvEstimasiPanen);
-        btnEdit = findViewById(R.id.btnEdit);
+        btnTanam = findViewById(R.id.btnTanam);
         btnPanen = findViewById(R.id.btnPanen);
         imvDeleteLahan = findViewById(R.id.imvDeleteLahan);
         imvtutup = findViewById(R.id.imvtutup);
@@ -72,11 +97,20 @@ public class DetailLahan extends AppCompatActivity {
             txvDetailLokasiLahan.setText(lahan.getLokasiLahan());
         }
 
-        //Masuk Ke Halaman Edit Lahan
-        btnEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(this, EditLahan.class);
-            intent.putExtra("lahanId", lahanId);
-            startActivity(intent);
+        //Masuk Ke Halaman Tambah Tanam Lahan Hanya Jika Sudah Panen
+        btnTanam.setOnClickListener(v -> {
+            if (lahan.getJenisTanaman() == null &&
+                    lahan.getTanggalTanam() == null &&
+                    lahan.getEstimasiPanen() == null &&
+                    lahan.getKelembapanTanah() == null) {
+                // Jika boleh tanam, pindah ke halaman EditLahan
+                Intent intent = new Intent(this, EditLahan.class);
+                intent.putExtra("IdLahan", lahanId);
+                startActivity(intent);
+            } else {
+                // Jika belum panen, tampilkan peringatan
+                Toast.makeText(this, "Lahan masih dalam masa tanam. Panen dulu sebelum menanam ulang.", Toast.LENGTH_SHORT).show();
+            }
         });
 
         // Hapus lahan
@@ -106,10 +140,15 @@ public class DetailLahan extends AppCompatActivity {
             toPengaturanLahan();
         });
 
+
         //Apabila Sawah Dipanen Klik Tombol Panen
         btnPanen.setOnClickListener(v -> {
-            //Validasi Apakah Ada Data
-            if (lahan.getJenisTanaman() == null || lahan.getTanggalTanam() == null || lahan.getEstimasiPanen() == null) {
+            //Validasi Apakah Data Lengkap
+            if (lahan.getJenisTanaman() == null ||
+                    lahan.getTanggalTanam() == null ||
+                    lahan.getEstimasiPanen() == null ||
+                    lahan.getKelembapanTanah() == null ||
+                    lahan.getKelembapanTanah().isEmpty()) {
                 Toast.makeText(this, "Data penanaman belum lengkap. Tidak bisa panen.", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -130,13 +169,20 @@ public class DetailLahan extends AppCompatActivity {
                     lahanInTransaction.setEstimasiPanen(null);
                     lahanInTransaction.setKelembapanTanah(null);
                 }
-
+            }, () -> {
+                // onSuccess
+                runOnUiThread(() -> {
+                    tampilkanDataLahan();
+                    loadRiwayatTanam();
+                    Toast.makeText(this, "Panen berhasil disimpan ke riwayat!", Toast.LENGTH_SHORT).show();
+                });
+            }, error -> {
+                runOnUiThread(() ->
+                        Toast.makeText(this, "Gagal menyimpan panen: " + error.getMessage(), Toast.LENGTH_SHORT).show()
+                );
             });
-            //Refresh Riwayat Tanam dan Data
-            tampilkanDataLahan();
-            loadRiwayatTanam();
         });
-        //Isi Riwayat Tanam Pertama Kali
+        //Pastikan Riwayat Tanam Muncul Langsung
         loadRiwayatTanam();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -148,6 +194,7 @@ public class DetailLahan extends AppCompatActivity {
     private void loadRiwayatTanam() {
         RealmResults<HistoryTanam> results = realm.where(HistoryTanam.class)
                 .equalTo("idLahan", lahanId)
+                .sort("idLahan", Sort.DESCENDING)
                 .findAll();
 
         ArrayList<HistoryTanam> list = new ArrayList<>(realm.copyFromRealm(results));

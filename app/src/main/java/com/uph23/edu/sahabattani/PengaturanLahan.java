@@ -94,9 +94,9 @@ public class PengaturanLahan extends AppCompatActivity {
         //Mengarahkan User Ke Detail Lahan
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Lahan selectedLahan = lahanArrayList.get(position);
+            //Kirim Id Lahan ke Halaman detail Lahan
             Intent intent = new Intent(PengaturanLahan.this, DetailLahan.class);
             intent.putExtra("lahanId", selectedLahan.getId());
-            //Kirim Id Lahan ke Halam detail Lahan
             startActivity(intent);
         });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -131,4 +131,5 @@ public class PengaturanLahan extends AppCompatActivity {
         Intent intent = new Intent(this,TambahLahan.class);
         startActivity(intent);
     }
+
 }

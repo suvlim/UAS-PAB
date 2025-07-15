@@ -23,7 +23,6 @@ import java.util.Locale;
 
 public class TambahLahan extends AppCompatActivity {
 
-
     EditText edtLokasiLahan, edtNamaLahan;
     ImageView imvtutup;
     Button btnTambahLahan;
@@ -32,6 +31,7 @@ public class TambahLahan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah_lahan);
+
         //Pengaturan Bottom NavBar
         BottomNavigationView btmNav = findViewById(R.id.bottom_nav);
         //Set Halaman Lahan
@@ -53,6 +53,7 @@ public class TambahLahan extends AppCompatActivity {
             }
             return false;
         });
+
         imvtutup = findViewById(R.id.imvtutup);
         edtLokasiLahan = findViewById(R.id.edtLokasiLahan);
         edtNamaLahan = findViewById(R.id.edtNamaLahan);
@@ -61,9 +62,18 @@ public class TambahLahan extends AppCompatActivity {
         imvtutup.setOnClickListener(v -> {
             toPengaturanLahan();
         });
+        //Pastikan Data Tidak Ada Yang Kosong Sebelum Melanjutkan Pengisian Data
         btnTambahLahan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Ambil Data Nama dan Lokasi Lahan
+                String namaLahan = edtNamaLahan.getText().toString();
+                String lokasiLahan = edtLokasiLahan.getText().toString();
+                //Validasi Keberadaan Data
+                if (namaLahan.isEmpty() || lokasiLahan.isEmpty()) {
+                    Toast.makeText(TambahLahan.this, "Data tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 toTambahDetailLahan();
             }
         });

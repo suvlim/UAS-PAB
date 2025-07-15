@@ -4,12 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
->
+    android:layout_height="match_parent">
+
+    <!-- Konten utama -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:id="@+id/content_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,136 +41,143 @@
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/close"/>
         </LinearLayout>
+
+        <!-- Informasi lahan -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/forest_green"
-            >
-
-            <LinearLayout
+            app:cardBackgroundColor="@color/forest_green">
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/txvDetailNamaLahan"
-                        android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Lahan Sawah A"
-                        android:textColor="@android:color/white"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-                    <ImageView
-                        android:id="@+id/imvDeleteLahan"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/trash"
-
-                        />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/txvDetailNamaLahan"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Lahan Sawah A"
+                            android:textColor="@android:color/white"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:id="@+id/imvDeleteLahan"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/trash"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/txvDetailLokasiLahan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Desa X, Medan"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@android:color/white" />
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/txvDetailLokasiLahan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Desa X, Medan"
-                    android:layout_marginBottom="10dp"
-                    android:textColor="@android:color/white" />
-
-
-            </LinearLayout>
+            </ScrollView>
         </androidx.cardview.widget.CardView>
+
+        <!-- Info tanaman -->
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/txvJenisTanaman"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="6pt"
+                android:text="Jenis Tanaman: -" />
+            <TextView
+                android:id="@+id/txvTanggalTanam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="6pt"
+                android:text="Mulai Tanam: -"
+                android:layout_marginTop="8dp"/>
+            <TextView
+                android:id="@+id/txvEstimasiPanen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="6pt"
+                android:text="Estimasi Panen: -"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Tombol -->
+        <LinearLayout
+            android:id="@+id/buttonGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btnTanam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tanam"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/white_green"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btnPanen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Panen"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/dark_green"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <!-- Label riwayat -->
+        <TextView
+            android:id="@+id/txvHistoryLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Riwayat Tanam"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/forest_green"
+            android:textColor="@color/white"/>
+
+        <!-- ListView riwayat -->
+        <ListView
+            android:id="@+id/lsvHistoryTanam"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/txvJenisTanaman"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="6pt"
-                    android:text="Jenis Tanaman: -" />
-
-                <TextView
-                    android:id="@+id/txvTanggalTanam"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="6pt"
-                    android:text="Mulai Tanam: -"
-                    android:layout_marginTop="8dp"/>
-
-                <TextView
-                    android:id="@+id/txvEstimasiPanen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="6pt"
-                    android:text="Estimasi Panen: -"
-                    android:layout_marginTop="8dp"/>
-
-        </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/buttonGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="16dp">
-
-                <Button
-                    android:id="@+id/btnEdit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Edit"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/white_green"
-                    android:textColor="@android:color/white" />
-
-                <Button
-                    android:id="@+id/btnPanen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Panen"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/dark_green"
-                    android:textColor="@android:color/white" />
-
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/txvHistoryLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Riwayat Tanam"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:padding="16dp"
-                android:layout_marginTop="24dp"
-                android:background="@color/forest_green"
-                android:textColor="@color/white"/>
-
-            <ListView
-                android:layout_marginTop="10dp"
-                android:id="@+id/lsvHistoryTanam"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp" />
-        </LinearLayout>
+            android:paddingTop="8dp" />
     </LinearLayout>
 
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_green"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconSize="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
