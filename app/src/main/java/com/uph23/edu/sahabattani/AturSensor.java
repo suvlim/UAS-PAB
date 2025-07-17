@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.uph23.edu.sahabattani.adapter.SensorAdapter;
+import com.uph23.edu.sahabattani.model.Lahan;
 import com.uph23.edu.sahabattani.model.Sensor;
 
 import java.util.ArrayList;
@@ -24,7 +25,6 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 public class AturSensor extends AppCompatActivity {
-
     FloatingActionButton fabTambahSensor;
 
     @Override
@@ -76,20 +76,27 @@ public class AturSensor extends AppCompatActivity {
                 .build();
         Realm.setDefaultConfiguration(config);
         Realm realm = Realm.getDefaultInstance();
-        final ArrayList<Sensor> arrayList = new ArrayList<>();
-
-        RealmResults<Sensor> results = realm.where(Sensor.class).findAll();
-        if (results != null) {
-            arrayList.addAll(realm.copyFromRealm(results));
+        // Buat daftar gabungan untuk header dan sensor
+        final ArrayList<Object> dataList = new ArrayList<>();
+        RealmResults<Lahan> lahanResults = realm.where(Lahan.class).findAll();
+        for (Lahan lahan : lahanResults) {
+            dataList.add(lahan); // Tambah header lahan
+            RealmResults<Sensor> sensorResults = realm.where(Sensor.class).equalTo("lahan.id", lahan.getId()).findAll();
+            dataList.addAll(realm.copyFromRealm(sensorResults)); // Tambah daftar sensor
         }
 
-        SensorAdapter numbersArrayAdapter = new SensorAdapter(this, arrayList);
+        // Inisialisasi Adapter dengan data gabungan
+        SensorAdapter sensorAdapter = new SensorAdapter(this, dataList); // Asumsikan SensorAdapter sudah mendukung dua tipe view
         ListView numbersListView = findViewById(R.id.lsvSensor);
-        numbersListView.setAdapter(numbersArrayAdapter);
-        results.addChangeListener(mhs -> numbersArrayAdapter.notifyDataSetChanged());
+        numbersListView.setAdapter(sensorAdapter);
+
+        // Update adapter saat data berubah
+        realm.addChangeListener(realm1 -> sensorAdapter.notifyDataSetChanged());
+
     }
-    public void toTambahSensor(){
-        Intent intent = new Intent(this,AturSensorTambah.class);
+
+    public void toTambahSensor() {
+        Intent intent = new Intent(this, AturSensorTambah.class);
         startActivity(intent);
-}
+    }
 }

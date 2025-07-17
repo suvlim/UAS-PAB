@@ -1,6 +1,8 @@
 package com.uph23.edu.sahabattani.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,69 +13,136 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.uph23.edu.sahabattani.AturSensor;
 import com.uph23.edu.sahabattani.R;
+import com.uph23.edu.sahabattani.model.Lahan;
 import com.uph23.edu.sahabattani.model.Sensor;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
-public class SensorAdapter extends ArrayAdapter<Sensor> {
-    public SensorAdapter(@NonNull Context context, ArrayList<Sensor> arrayList) {
-        super(context, 0, arrayList);
+public class SensorAdapter extends ArrayAdapter<Object> {
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_SENSOR = 1;
+    private Context context;
+    private List<Object> datalist; // local storage
+
+    Realm realm;
+    public SensorAdapter(@NonNull Context context, List<Object> items) {
+        super(context, 0, items);
+        this.context = context;
+        this.datalist = new ArrayList<>(items);
+    }
+    @Override
+    public int getViewTypeCount() {
+        return 2; // Header dan Sensor
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        Object item = getItem(position);
+        if (item instanceof Lahan) return TYPE_HEADER;
+        return TYPE_SENSOR;
+    }
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        int viewType = getItemViewType(position);
         View currentItemView = convertView;
         // of the recyclable view is null then inflate the custom layout for the same
         if (currentItemView == null) {
-            currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.item_sensor, parent,
-                    false);
-        }
-        // get the position of the view from the ArrayAdapter
-        Sensor currentNumberPosition = getItem(position);
-
-        // then according to the position of the view assign the desired image for the same
-        ImageView numbersImage = currentItemView.findViewById(R.id.imgSensor);
-        assert currentNumberPosition != null;
-
-        TextView textView1 = currentItemView.findViewById(R.id.txvnamaSensor);
-        textView1.setText(currentNumberPosition.getNamaSensor());
-
-        // then according to the position of the view assign the desired TextView 2 for the same
-        TextView textView2 = currentItemView.findViewById(R.id.txvLongitude);
-        textView2.setText("Longitude : " + currentNumberPosition.getLongitude());
-
-        TextView textView3 = currentItemView.findViewById(R.id.txvLatitude);
-        textView3.setText("Latitude : " + currentNumberPosition.getLatitude());
-
-        TextView textView4 = currentItemView.findViewById(R.id.txvKelembapan);
-        textView4.setText("Kelembapan Air: " + currentNumberPosition.getKelembapan()+ "%");
-
-        ImageView imgdelete = currentItemView.findViewById(R.id.imgDelete);
-        imgdelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteSensor(currentNumberPosition.getSensorID());
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            if (viewType == TYPE_HEADER) {
+                currentItemView = inflater.inflate(R.layout.item_header_sensor, parent, false);
+            } else {
+                currentItemView = inflater.inflate(R.layout.item_sensor, parent, false);
             }
-        });
+        }
 
+        Object item = getItem(position);
+
+        if (viewType == TYPE_HEADER) {
+            Lahan lahan = (Lahan) item;
+            TextView txvnamaLahan = currentItemView.findViewById(R.id.txvNamaLahan); // Sesuaikan ID
+            txvnamaLahan.setText(lahan.getNamaLahan());
+            TextView txvlokasiLahan = currentItemView.findViewById(R.id.txvLokasiLahan);
+            txvlokasiLahan.setText(lahan.getLokasiLahan());
+        } else {
+            Sensor sensor = (Sensor) item;
+            TextView txvNamaSensor = currentItemView.findViewById(R.id.txvnamaSensor);
+            TextView txvLongitude = currentItemView.findViewById(R.id.txvLongitude);
+            TextView txvLatitude = currentItemView.findViewById(R.id.txvLatitude);
+            TextView txvKelembapan = currentItemView.findViewById(R.id.txvKelembapan);
+            ImageView imgSensor = currentItemView.findViewById(R.id.imgSensor);
+            ImageView imgDelete = currentItemView.findViewById(R.id.imgDelete);
+
+            txvNamaSensor.setText(sensor.getNamaSensor());
+            txvLongitude.setText("Longitude: " + sensor.getLongitude());
+            txvLatitude.setText("Latitude: " + sensor.getLatitude());
+            txvKelembapan.setText("Kelembapan Air: " + sensor.getKelembapan() + "%");
+            imgDelete.setOnClickListener(v -> deleteSensor(sensor.getSensorID()));
+        }
         // then return the recyclable view
         return currentItemView;
     }
 
     public void deleteSensor(final int sensorID){
         Realm realm = Realm.getDefaultInstance();
-        Sensor sensor =  realm.where(Sensor.class).equalTo("sensorID", sensorID).findFirst();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                sensor.deleteFromRealm();
-                remove(sensor);
-                notifyDataSetChanged();
+        try {
+            Sensor sensor = realm.where(Sensor.class).equalTo("sensorID", sensorID).findFirst();
+            if (sensor != null) {
+                // Tampilkan AlertDialog untuk konfirmasi
+                new AlertDialog.Builder(context)
+                        .setTitle("Konfirmasi Hapus")
+                        .setMessage("Apakah Anda yakin ingin menghapus sensor ini?")
+                        .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Panggil metode deleteSensor saat pengguna setuju
+                                realm.executeTransaction(realm1 -> {
+                                    sensor.deleteFromRealm();
+                                    // Perbarui data di adapter (opsional, tergantung implementasi)
+                                    updatedataList();
+                                });
+                            }
+                        })
+                        .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Tutup dialog jika pengguna membatalkan
+                                dialog.dismiss();
+                            }
+                        })
+                        .setCancelable(true) // Memungkinkan pengguna membatalkan dengan back button
+                        .show();
+            };
+        } finally {
+            if (realm != null && !realm.isClosed()) {
+                realm.close();
             }
-   });
+        }
+    }
+    private void updatedataList() {
+        if (realm != null && !realm.isClosed()) {
+            final ArrayList<Object> newDataList = new ArrayList<>();
+            RealmResults<Lahan> lahanResults = realm.where(Lahan.class).findAll();
+            for (Lahan lahan : lahanResults) {
+                newDataList.add(lahan);
+                RealmResults<Sensor> sensorResults = realm.where(Sensor.class).equalTo("lahan.id", lahan.getId()).findAll();
+                newDataList.addAll(realm.copyFromRealm(sensorResults));
+            }
+            datalist.clear();
+            datalist.addAll(newDataList);
+            clear();
+            addAll(datalist);
+            notifyDataSetChanged();
+        }
+    }
+
 }
-}
+

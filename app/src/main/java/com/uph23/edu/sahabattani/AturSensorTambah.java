@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,21 +18,31 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.uph23.edu.sahabattani.model.Lahan;
 import com.uph23.edu.sahabattani.model.Sensor;
 import com.uph23.edu.sahabattani.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class AturSensorTambah extends AppCompatActivity {
-
-    EditText edtnamaSensor, longitudeInput, latitudeInput, msknnamaLahan;
+    EditText edtnamaSensor, longitudeInput, latitudeInput;
     Button btnAddSensor;
+    Spinner spinnerLahan;
+
+    private String selectedLahan;
+    private RealmResults<Lahan> lahanList;
+    private List<String> lahanNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_atur_sensor_tambah);
+        Realm.init(this);
         //Pengaturan Bottom NavBar
         BottomNavigationView btmNav = findViewById(R.id.bottom_nav);
         //Set Halaman Lahan
@@ -60,9 +73,21 @@ public class AturSensorTambah extends AppCompatActivity {
         edtnamaSensor = findViewById(R.id.edtnamaSensor);
         longitudeInput = findViewById(R.id.longitudeInput);
         latitudeInput = findViewById(R.id.latitudeInput);
-        msknnamaLahan = findViewById(R.id.msknNamaLahan);
+        spinnerLahan = findViewById(R.id.spinner_lahan);
         btnAddSensor = findViewById(R.id.btnAddSensor);
 
+        loadDataSpinner();
+        spinnerLahan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedLahan = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedLahan = null;
+            }
+        });
         btnAddSensor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,13 +96,38 @@ public class AturSensorTambah extends AppCompatActivity {
                     toAturSensor();
                 }
             }
+
         });
+
+    }
+    private void loadDataSpinner() {
+        Realm realm = Realm.getDefaultInstance();
+        lahanList = realm.where(Lahan.class).findAll();
+        lahanNames = new ArrayList<>();
+        realm.executeTransaction(r -> {
+            if(lahanList.isEmpty()){
+                Toast.makeText(this, "Tidak ada lahan yang terdaftar", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                for(Lahan l : lahanList){
+                    lahanNames.add(l.getNamaLahan());
+                }
+            }
+        });
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, lahanNames);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLahan.setAdapter(adapter);
     }
     public void simpanData(){
+
+        List lahanlist = new ArrayList();
         String namaSensor = edtnamaSensor.getText().toString().trim();
-        int longitude = Integer.parseInt(longitudeInput.getText().toString().trim());
-        int latitude = Integer.parseInt( latitudeInput.getText().toString().trim());
-        String namaLahan = msknnamaLahan.getText().toString().trim();
+        String longitude = longitudeInput.getText().toString();
+        String latitude =  latitudeInput.getText().toString();
+        int selectedPosition = spinnerLahan.getSelectedItemPosition();
+        Lahan selectedLahan = lahanList.get(selectedPosition);
+
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(r -> {
             Number maxId = r.where(Sensor.class).max("sensorID");
@@ -86,21 +136,27 @@ public class AturSensorTambah extends AppCompatActivity {
             sensor.setNamaSensor(namaSensor);
             sensor.setLongitude(longitude);
             sensor.setLatitude(latitude);
-            sensor.setNamaLahan(namaLahan);
             sensor.setKelembapan(sensor.generaterandomHumidity(30,80));
+            sensor.setLahan(selectedLahan);
         });
-        Toast.makeText(this, "Data tersimpan", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Sensor berhasil ditambahkan !", Toast.LENGTH_SHORT).show();
     }
     public boolean validateInput(){
         boolean isValid = true;
         String namaSensor = edtnamaSensor.getText().toString().trim();
         String longitudeText = longitudeInput.getText().toString().trim();
         String latitudeText = latitudeInput.getText().toString().trim();
-        String namaLahan = msknnamaLahan.getText().toString().trim();
+
+        if (selectedLahan == null || selectedLahan.isEmpty()) {
+            isValid = false;
+            Toast.makeText(this, "Nama Lahan tidak boleh kosong. Harap pilih lahan.", Toast.LENGTH_SHORT).show();
+            return isValid;
+        }
 
         if(namaSensor.isEmpty()){
             isValid = false;
             Toast.makeText(this, "Nama sensor tidak boleh kosong", Toast.LENGTH_SHORT).show();
+
         }
         int longitude = 0;
         if (longitudeText.isEmpty()) {
@@ -129,14 +185,11 @@ public class AturSensorTambah extends AppCompatActivity {
                 Toast.makeText(this, "Latitude harus berupa angka", Toast.LENGTH_SHORT).show();
             }
         }
-        if(namaLahan.isEmpty()){
-            isValid = false;
-            Toast.makeText(this, "Nama Lahan tidak boleh kosong", Toast.LENGTH_SHORT).show();
-        }
         return isValid;
     }
     public void toAturSensor(){
         Intent intent = new Intent(this, AturSensor.class);
         startActivity(intent);
     }
+
 }

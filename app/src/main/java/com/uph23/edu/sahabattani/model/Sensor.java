@@ -8,22 +8,23 @@ import io.realm.annotations.PrimaryKey;
 public class Sensor extends RealmObject {
     @PrimaryKey
     private int sensorID;
-    private int longitude;
-    private int latitude;
-    private String namaLahan;
+    private String longitude;
+    private String latitude;
     private String namaSensor;
     private int kelembapan;
+
+    private Lahan lahan;
 
     public Sensor(){
 
     }
-    public Sensor(int sensorID, int longitude, int latitude, String namaLahan,String namaSensor, int kelembapan) {
+    public Sensor(int sensorID, String  longitude, String latitude, String namaSensor, int kelembapan, Lahan lahan) {
         this.sensorID = sensorID;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.namaLahan = namaLahan;
         this.namaSensor = namaSensor;
-        this.kelembapan = generaterandomHumidity(30,80);
+        this.kelembapan = kelembapan;
+        this.lahan = lahan;
     }
 
     public int getSensorID() {
@@ -34,28 +35,20 @@ public class Sensor extends RealmObject {
         this.sensorID = sensorID;
     }
 
-    public int getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
-    public int getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
-    }
-
-    public String getNamaLahan() {
-        return namaLahan;
-    }
-
-    public void setNamaLahan(String namaLahan) {
-        this.namaLahan = namaLahan;
     }
 
     public String getNamaSensor() {
@@ -71,6 +64,14 @@ public class Sensor extends RealmObject {
 
     public void setKelembapan(int kelembapan) {
         this.kelembapan = kelembapan;
+    }
+
+    public Lahan getLahan() {
+        return lahan;
+    }
+
+    public void setLahan(Lahan lahan) {
+        this.lahan = lahan;
     }
 
     public int generaterandomHumidity(int min, int max){

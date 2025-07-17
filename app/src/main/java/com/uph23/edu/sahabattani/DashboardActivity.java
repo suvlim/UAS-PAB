@@ -11,10 +11,25 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.uph23.edu.sahabattani.adapter.Monitoring;
+import com.uph23.edu.sahabattani.model.Lahan;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.uph23.edu.sahabattani.model.Sensor;
 
 public class DashboardActivity extends AppCompatActivity {
     LinearLayout llyTambahLahan, llyAturSensor;
+    Realm realm;
+    ListView lsvMonitoring;
+    Monitoring adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +58,8 @@ public class DashboardActivity extends AppCompatActivity {
             return false;
         });
 
+
+        // Pindah ke halaman TambahLahan saat tombol ditekan
         llyTambahLahan = findViewById(R.id.llyTambahLahan);
         llyTambahLahan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +68,7 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
+        // Pindah ke halaman AturSensor saat tombol ditekan
         llyAturSensor = findViewById(R.id.llyAturSensor);
         llyAturSensor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,14 +76,50 @@ public class DashboardActivity extends AppCompatActivity {
                 toAturSensor();
             }
         });
+
+        // Inisialisasi Realm
+        Realm.init(this);
+        realm = Realm.getDefaultInstance();
+
+        // Temukan ListView
+        lsvMonitoring = findViewById(R.id.lsvMonitoring);
+
+        // Ambil data lahan dari Realm
+        RealmResults<Lahan> lahanList = realm.where(Lahan.class).findAll();
+
+        // Set Adapter ke ListView
+        adapter = new Monitoring(this, lahanList);
+        lsvMonitoring.setAdapter(adapter);
+
+
     }
+
+    // Fungsi untuk pindah ke halaman TambahLahan
     public void toTambahLahan(){
         Intent intent = new Intent(this, TambahLahan.class);
         startActivity(intent);
     }
 
+    // Fungsi untuk pindah ke halaman AturSensor
     public void toAturSensor(){
-        Intent intent = new Intent(this, AturSensor.class);
-        startActivity(intent);
+        RealmResults<Sensor> sensorResults = realm.where(Sensor.class).findAll();
+        if(sensorResults != null) {
+            Intent intent = new Intent(this, AturSensor.class);
+            startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(this, AturSensorTambah.class);
+            startActivity(intent);
+        }
     }
+
+    @Override
+    protected void onDestroy() {
+        // Untuk close realm
+        super.onDestroy();
+        if (realm != null) {
+            realm.close();
+        }
+    }
+
 }
