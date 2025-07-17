@@ -69,9 +69,12 @@ public class SensorAdapter extends ArrayAdapter<Object> {
         if (viewType == TYPE_HEADER) {
             Lahan lahan = (Lahan) item;
             TextView txvnamaLahan = currentItemView.findViewById(R.id.txvNamaLahan); // Sesuaikan ID
-            txvnamaLahan.setText(lahan.getNamaLahan());
+            txvnamaLahan.setText("Lahan Sawah " + lahan.getNamaLahan());
             TextView txvlokasiLahan = currentItemView.findViewById(R.id.txvLokasiLahan);
             txvlokasiLahan.setText(lahan.getLokasiLahan());
+
+
+
         } else {
             Sensor sensor = (Sensor) item;
             TextView txvNamaSensor = currentItemView.findViewById(R.id.txvnamaSensor);
@@ -82,10 +85,11 @@ public class SensorAdapter extends ArrayAdapter<Object> {
             ImageView imgDelete = currentItemView.findViewById(R.id.imgDelete);
 
             txvNamaSensor.setText(sensor.getNamaSensor());
-            txvLongitude.setText("Longitude: " + sensor.getLongitude());
-            txvLatitude.setText("Latitude: " + sensor.getLatitude());
-            txvKelembapan.setText("Kelembapan Air: " + sensor.getKelembapan() + "%");
+            txvLongitude.setText(": " + sensor.getLongitude());
+            txvLatitude.setText(": " + sensor.getLatitude());
+            txvKelembapan.setText(sensor.getKelembapan() + "%");
             imgDelete.setOnClickListener(v -> deleteSensor(sensor.getSensorID()));
+
         }
         // then return the recyclable view
         return currentItemView;

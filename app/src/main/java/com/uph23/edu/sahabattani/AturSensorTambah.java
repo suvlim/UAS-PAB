@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 public class AturSensorTambah extends AppCompatActivity {
@@ -43,6 +44,12 @@ public class AturSensorTambah extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_atur_sensor_tambah);
         Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .schemaVersion(1) // gunakan versi yang lebih tinggi atau sama
+                .deleteRealmIfMigrationNeeded() // aman untuk development, hapus data jika ada perubahan skema
+                .build();
+
+        Realm.setDefaultConfiguration(config);
         //Pengaturan Bottom NavBar
         BottomNavigationView btmNav = findViewById(R.id.bottom_nav);
         //Set Halaman Lahan
