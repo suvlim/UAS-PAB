@@ -94,4 +94,3 @@ public class Monitoring extends BaseAdapter {
         ImageView imgAir;
     }
 }
-
