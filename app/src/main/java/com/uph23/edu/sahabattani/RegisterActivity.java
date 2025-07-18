@@ -44,23 +44,32 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(validateInput()) {
                     simpanData();
-                    toLogin();
                 }
             }
         });
     }
     public void simpanData(){
+        Realm realm = Realm.getDefaultInstance();
+
         String username = edtAkun.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(r -> {
-            Number maxId = r.where(User.class).max("userid");
-            int nextId = (maxId == null) ? 1 : maxId.intValue() + 1;
-            User user = r.createObject(User.class, nextId);
-            user.setUsername(username);
-            user.setPassword(password);
-        });
-        Toast.makeText(this, "Data tersimpan", Toast.LENGTH_SHORT).show();
+
+        User user_terdaftar = realm.where(User.class).equalTo("username",username).findFirst();
+
+        if(user_terdaftar != null) {
+            Toast.makeText(this, "Akun sudah terdaftar", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            realm.executeTransaction(r -> {
+                Number maxId = r.where(User.class).max("userid");
+                int nextId = (maxId == null) ? 1 : maxId.intValue() + 1;
+                User user = r.createObject(User.class, nextId);
+                user.setUsername(username);
+                user.setPassword(password);
+            });
+            Toast.makeText(this, "Data tersimpan", Toast.LENGTH_SHORT).show();
+            toLogin();
+        }
     }
 
     public boolean validateInput() {
