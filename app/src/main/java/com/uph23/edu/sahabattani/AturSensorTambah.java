@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class AturSensorTambah extends AppCompatActivity {
     EditText edtnamaSensor, longitudeInput, latitudeInput;
     Button btnAddSensor;
     Spinner spinnerLahan;
+    ImageView imvtutup;
 
     private String selectedLahan;
     private RealmResults<Lahan> lahanList;
@@ -70,6 +72,11 @@ public class AturSensorTambah extends AppCompatActivity {
                 return true;
             }
             return false;
+        });
+
+        imvtutup = findViewById(R.id.imvtutup);
+        imvtutup.setOnClickListener(v -> {
+            toAturSensor();
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -198,5 +205,6 @@ public class AturSensorTambah extends AppCompatActivity {
         Intent intent = new Intent(this, AturSensor.class);
         startActivity(intent);
     }
+
 
 }

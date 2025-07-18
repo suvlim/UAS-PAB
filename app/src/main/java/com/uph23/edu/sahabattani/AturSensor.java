@@ -26,6 +26,7 @@ import io.realm.RealmResults;
 
 public class AturSensor extends AppCompatActivity {
     FloatingActionButton fabTambahSensor;
+    ImageView imvtutup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,12 @@ public class AturSensor extends AppCompatActivity {
         fabTambahSensor.setOnClickListener(view -> {
             toTambahSensor();
 
+        });
+
+        //Balik ke Halaman Pengaturan Lahan
+        imvtutup = findViewById(R.id.imvtutup);
+        imvtutup.setOnClickListener(v -> {
+            toPengaturanLahan();
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -97,6 +104,10 @@ public class AturSensor extends AppCompatActivity {
 
     public void toTambahSensor() {
         Intent intent = new Intent(this, AturSensorTambah.class);
+        startActivity(intent);
+    }
+    public void toPengaturanLahan(){
+        Intent intent = new Intent(this,PengaturanLahan.class);
         startActivity(intent);
     }
 }
