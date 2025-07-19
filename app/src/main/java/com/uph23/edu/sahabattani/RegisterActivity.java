@@ -39,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         edtAkun = findViewById(R.id.edtAkun);
         edtPassword = findViewById(R.id.edtPassword);
         btnRegister = findViewById(R.id.btnRegister);
+        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
         btnRegister.setOnClickListener(new View.OnClickListener() {

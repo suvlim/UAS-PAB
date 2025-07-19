@@ -73,7 +73,13 @@ public class Monitoring extends RecyclerView.Adapter<Monitoring.ViewHolder> {
         double rataSensor = getRataRataSensorKelembapan(lahan.getId());
         //Ambil data kelembapan tanah dari lahan (Kelembapan tanah optimal)
         try {
-            optimal = Double.parseDouble(lahan.getKelembapanTanah());
+            String kelembapanStr = lahan.getKelembapanTanah();
+            //Pastikan kelembapan ada isi
+            if (kelembapanStr != null && !kelembapanStr.trim().isEmpty()) {
+                optimal = Double.parseDouble(kelembapanStr.trim());
+            } else {
+                optimal = 0;
+            }
         } catch (NumberFormatException e) {
             optimal = 0;
         }

@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         edtAkun = findViewById(R.id.edtAkun);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
 
