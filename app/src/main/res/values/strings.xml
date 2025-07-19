@@ -43,4 +43,9 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="temperature">28 °C</string>
+    <string name="weather_description">Cerah Berawan</string>
+    <string name="humidity_percentage">65 %</string>
+    <string name="wind_speed">12 km/h</string>
+    <string name="rain_percentage">20 %</string>
 </resources>
