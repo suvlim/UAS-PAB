@@ -1,5 +1,6 @@
 package com.uph23.edu.sahabattani;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,28 @@ public class laporanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laporan);
+
+        //Pengaturan Bottom NavBar
+        BottomNavigationView btmNav = findViewById(R.id.bottom_navigation);
+        //Set Halaman Statistik
+        btmNav.setSelectedItemId(R.id.navigation_statistik);
+        btmNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.navigation_statistik) {
+                return true;
+                //Pindah ke halaman Dashboard
+            } else if (itemId == R.id.navigation_home) {
+                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+                //Pindah ke halaman pengaturan lahan
+            } else if (itemId == R.id.navigation_lahan) {
+                startActivity(new Intent(getApplicationContext(), laporanActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
+        });
 
         // Deklarasi lokal
         LineChart chartHumidity = findViewById(R.id.chart_humidity);

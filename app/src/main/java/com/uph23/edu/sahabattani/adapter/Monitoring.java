@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,16 +15,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.uph23.edu.sahabattani.R;
 import com.uph23.edu.sahabattani.model.Lahan;
+import com.uph23.edu.sahabattani.model.Sensor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import io.realm.Realm;
+
 public class Monitoring extends RecyclerView.Adapter<Monitoring.ViewHolder> {
 
     private Context context;
     private List<Lahan> lahanList;
+    private List<Sensor> sensorList;
+
     private LayoutInflater inflater;
 
     public Monitoring(Context context, List<Lahan> lahanList) {
@@ -61,24 +67,35 @@ public class Monitoring extends RecyclerView.Adapter<Monitoring.ViewHolder> {
 
         holder.tvNama.setText("Lahan Sawah " + lahan.getNamaLahan());
         holder.tvLokasi.setText(lahan.getLokasiLahan());
-        holder.tvKelembapan.setText(lahan.getKelembapanTanah() + "%");
 
-        int kelembapan = 0;
+        double optimal = 0;
+        //Ambil rata rata data kelembapan tanah pada semua sensor di lahan tertentu
+        double rataSensor = getRataRataSensorKelembapan(lahan.getId());
+        //Ambil data kelembapan tanah dari lahan (Kelembapan tanah optimal)
         try {
-            kelembapan = Integer.parseInt(lahan.getKelembapanTanah());
+            optimal = Double.parseDouble(lahan.getKelembapanTanah());
         } catch (NumberFormatException e) {
-            kelembapan = 0;
+            optimal = 0;
         }
 
-        holder.progressBar.setProgress(kelembapan);
+        int progress = 0;
+        if (optimal > 0) {
+            progress = (int) ((rataSensor / optimal) * 100);
+            progress = Math.min(progress, 100);
+        } else {
+            progress = 0;
+        }
 
-        holder.tvDitanam.setText("Tanggal Tanam: " + lahan.getTanggalTanam());
+        holder.progressBar.setProgress(Math.min(progress, 100));
+        holder.tvKelembapan.setText(progress + " %");
+
+        holder.tvDitanam.setText(lahan.getTanggalTanam() != null ? "Tanggal Tanam : " + lahan.getTanggalTanam(): "Tanggal Tanam : " + "-");
 
         int sisaHari = hitungSisaHariPanen(lahan.getEstimasiPanen());
         holder.tvPanen.setText("Estimasi Panen : " + sisaHari + " hari");
 
         // Contoh status air
-        holder.tvStatusAir.setText(kelembapan >= 50 ? "Optimal" : "Kurang");
+        holder.tvStatusAir.setText(rataSensor >= optimal ? "Optimal" : "Kurang");
         holder.imgAir.setImageResource(R.drawable.water);
     }
     @Override
@@ -102,4 +119,28 @@ public class Monitoring extends RecyclerView.Adapter<Monitoring.ViewHolder> {
             return 0;
         }
     }
+    // Hitung rata-rata kelembapan tanah yang didaptkan dari semua sensor di satu lahan
+    private double getRataRataSensorKelembapan(long lahanId) {
+        Realm realm = Realm.getDefaultInstance();
+        double rata2 = 0.0;
+        // Cari semua sensor dengan satu lahan id
+        try {
+            List<Sensor> sensors = realm.where(Sensor.class)
+                    .equalTo("lahan.id", lahanId)
+                    .findAll();
+
+            if (!sensors.isEmpty()) {
+                double total = 0;
+                for (Sensor sensor : sensors) {
+                    total += sensor.getKelembapan();
+                }
+                //Bagikan total dengan jumlah sensor
+                rata2 = total / sensors.size();
+            }
+        } finally {
+            realm.close();
+        }
+        return rata2;
+    }
+
 }

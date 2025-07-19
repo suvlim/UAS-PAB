@@ -84,7 +84,7 @@ public class SensorAdapter extends ArrayAdapter<Object> {
             ImageView imgSensor = currentItemView.findViewById(R.id.imgSensor);
             ImageView imgDelete = currentItemView.findViewById(R.id.imgDelete);
 
-            txvNamaSensor.setText("Sensor" + sensor.getNamaSensor());
+            txvNamaSensor.setText("Sensor " + sensor.getNamaSensor());
             txvLongitude.setText(": " + sensor.getLongitude());
             txvLatitude.setText(": " + sensor.getLatitude());
             txvKelembapan.setText(sensor.getKelembapan() + "%");

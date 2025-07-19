@@ -91,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences prefs = getSharedPreferences("MyApp",MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("userid",user.getUserid());
+                editor.putString("username", user.getUsername());
                 editor.apply();
                 toDashboard();
             }
