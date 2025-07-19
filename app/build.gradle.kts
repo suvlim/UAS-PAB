@@ -53,9 +53,11 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation ("androidx.core:core:1.12.0")
     implementation("io.realm:realm-android-library:10.15.1")
+    implementation ("androidx.cardview:cardview:1.0.0")
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.play.services.maps)
+    implementation(libs.androidx.legacy.support.v4)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,4 +65,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }

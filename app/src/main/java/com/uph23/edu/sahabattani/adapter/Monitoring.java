@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.uph23.edu.sahabattani.R;
 import com.uph23.edu.sahabattani.model.Lahan;
 
@@ -17,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class Monitoring extends BaseAdapter {
+public class Monitoring extends RecyclerView.Adapter<Monitoring.ViewHolder> {
 
     private Context context;
     private List<Lahan> lahanList;
@@ -28,44 +31,32 @@ public class Monitoring extends BaseAdapter {
         this.lahanList = lahanList;
         this.inflater = LayoutInflater.from(context);
     }
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvNama, tvLokasi, tvKelembapan, tvDitanam, tvPanen, tvStatusAir;
+        ProgressBar progressBar;
+        ImageView imgAir;
 
-    @Override
-    public int getCount() {
-        return lahanList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return lahanList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return lahanList.get(position).getId();
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.monitoring, parent, false);
-            holder = new ViewHolder();
-
-            holder.tvNama = convertView.findViewById(R.id.txvNamaLahan);
-            holder.tvLokasi = convertView.findViewById(R.id.tvLokasi);
-            holder.tvKelembapan = convertView.findViewById(R.id.txvOptimalKelembapan);
-            holder.progressBar = convertView.findViewById(R.id.persentaseKelembapan);
-            holder.tvDitanam = convertView.findViewById(R.id.txvTanggaTanam);
-            holder.tvPanen = convertView.findViewById(R.id.txvEstimasiPanen);
-            holder.tvStatusAir = convertView.findViewById(R.id.txvStatusAir);
-            holder.imgAir = convertView.findViewById(R.id.imgAir);
-
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvNama = itemView.findViewById(R.id.txvNamaLahan);
+            tvLokasi = itemView.findViewById(R.id.tvLokasi);
+            tvKelembapan = itemView.findViewById(R.id.txvOptimalKelembapan);
+            progressBar = itemView.findViewById(R.id.persentaseKelembapan);
+            tvDitanam = itemView.findViewById(R.id.txvTanggaTanam);
+            tvPanen = itemView.findViewById(R.id.txvEstimasiPanen);
+            tvStatusAir = itemView.findViewById(R.id.txvStatusAir);
+            imgAir = itemView.findViewById(R.id.imgAir);
         }
+    }
 
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.monitoring, parent, false);
+        return new ViewHolder(view);
+    }
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Lahan lahan = lahanList.get(position);
 
         holder.tvNama.setText("Lahan Sawah " + lahan.getNamaLahan());
@@ -89,9 +80,17 @@ public class Monitoring extends BaseAdapter {
         // Contoh status air
         holder.tvStatusAir.setText(kelembapan >= 50 ? "Optimal" : "Kurang");
         holder.imgAir.setImageResource(R.drawable.water);
-
-        return convertView;
     }
+    @Override
+    public int getItemCount() {
+        return lahanList != null ? lahanList.size() : 0;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return lahanList.get(position).getId();
+    }
+
     private int hitungSisaHariPanen(String tanggalEstimasiPanen) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
@@ -103,11 +102,4 @@ public class Monitoring extends BaseAdapter {
             return 0;
         }
     }
-
-    static class ViewHolder {
-        TextView tvNama, tvLokasi, tvKelembapan, tvDitanam, tvPanen, tvStatusAir;
-        ProgressBar progressBar;
-        ImageView imgAir;
-    }
-
 }

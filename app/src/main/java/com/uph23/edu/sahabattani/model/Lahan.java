@@ -7,6 +7,7 @@ import io.realm.annotations.PrimaryKey;
 public class Lahan extends RealmObject {
     @PrimaryKey
     private int id;
+    private int userid;
     private String namaLahan;
     private String lokasiLahan;
     private String jenisTanaman;
@@ -15,6 +16,17 @@ public class Lahan extends RealmObject {
     private String kelembapanTanah;
 
     public Lahan() {
+    }
+
+    public Lahan(int id, int userid, String namaLahan, String lokasiLahan, String jenisTanaman, String tanggalTanam, String estimasiPanen, String kelembapanTanah) {
+        this.id = id;
+        this.userid = userid;
+        this.namaLahan = namaLahan;
+        this.lokasiLahan = lokasiLahan;
+        this.jenisTanaman = jenisTanaman;
+        this.tanggalTanam = tanggalTanam;
+        this.estimasiPanen = estimasiPanen;
+        this.kelembapanTanah = kelembapanTanah;
     }
 
     @Override
@@ -34,9 +46,11 @@ public class Lahan extends RealmObject {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) {this.id = id;}
+
+    public int getUserid() {return userid;}
+
+    public void setUserid(int userid) {this.userid = userid;}
 
     public String getNamaLahan() {
         return namaLahan;
@@ -86,15 +100,7 @@ public class Lahan extends RealmObject {
         this.kelembapanTanah = kelembapanTanah;
     }
 
-    public Lahan(int id, String namaLahan, String lokasiLahan, String jenisTanaman, String tanggalTanam, String estimasiPanen, String kelembapanTanah) {
-        this.id = id;
-        this.namaLahan = namaLahan;
-        this.lokasiLahan = lokasiLahan;
-        this.jenisTanaman = jenisTanaman;
-        this.tanggalTanam = tanggalTanam;
-        this.estimasiPanen = estimasiPanen;
-        this.kelembapanTanah = kelembapanTanah;
-    }
+
 }
 
 

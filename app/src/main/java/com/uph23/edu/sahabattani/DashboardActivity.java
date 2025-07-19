@@ -7,12 +7,8 @@ import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import android.widget.ListView;
-import android.widget.Toast;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.uph23.edu.sahabattani.adapter.Monitoring;
 import com.uph23.edu.sahabattani.model.Lahan;
@@ -27,7 +23,7 @@ import com.uph23.edu.sahabattani.model.Sensor;
 public class DashboardActivity extends AppCompatActivity {
     LinearLayout llyTambahLahan, llyAturSensor;
     Realm realm;
-    ListView lsvMonitoring;
+    RecyclerView rvMonitoring;
     Monitoring adapter;
 
     @Override
@@ -81,15 +77,16 @@ public class DashboardActivity extends AppCompatActivity {
         Realm.init(this);
         realm = Realm.getDefaultInstance();
 
-        // Temukan ListView
-        lsvMonitoring = findViewById(R.id.lsvMonitoring);
+        // Temukan RecyclerView
+        rvMonitoring = findViewById(R.id.rvMonitoring);
 
         // Ambil data lahan dari Realm
         RealmResults<Lahan> lahanList = realm.where(Lahan.class).findAll();
 
         // Set Adapter ke ListView
+        rvMonitoring.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Monitoring(this, lahanList);
-        lsvMonitoring.setAdapter(adapter);
+        rvMonitoring.setAdapter(adapter);
 
 
     }

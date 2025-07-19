@@ -23,6 +23,7 @@ import io.realm.RealmConfiguration;
 public class RegisterActivity extends AppCompatActivity {
     EditText edtAkun,edtPassword;
     Button btnRegister;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         edtAkun = findViewById(R.id.edtAkun);
         edtPassword = findViewById(R.id.edtPassword);
         btnRegister = findViewById(R.id.btnRegister);
+        realm = Realm.getDefaultInstance();
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,8 +51,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
     public void simpanData(){
-        Realm realm = Realm.getDefaultInstance();
-
         String username = edtAkun.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
 
@@ -90,5 +90,12 @@ public class RegisterActivity extends AppCompatActivity {
     public void toLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(realm != null){
+            realm.close();
+        }
     }
 }

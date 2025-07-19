@@ -162,7 +162,10 @@ public class EditLahan extends AppCompatActivity {
         btn_simpan.setOnClickListener(view -> {
             kelembapanTanah = edt_kelembapan_tanah.getText().toString();
 
-            if (!validasiKelengkapanData()) return;
+            //Validasi apakah semua data terisi dan kelembapan tanah 1-100
+            if (!validasiKelengkapanData() || !validasiKelembapan(kelembapanTanah)) {
+                return;
+            }
 
             // Update Data ke Realm
             realm.executeTransactionAsync(r -> {
@@ -211,5 +214,13 @@ public class EditLahan extends AppCompatActivity {
         //Apabila Melewati Batas Waktu Estimasi Panen Muncul ANgka 0)
         return (int) Math.max(daysBetween, 0);
     }
+    private boolean validasiKelembapan(String kelembapanTanah) {
+        int nilaiKelembapan = Integer.parseInt(kelembapanTanah);
+        if (nilaiKelembapan >= 1 && nilaiKelembapan <= 100) {
+            return true; // Valid
+        } else {
+            Toast.makeText(this, "Nilai kelembapan harus antara 1 sampai 100%", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
 }
-

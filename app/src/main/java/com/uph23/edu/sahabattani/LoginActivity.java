@@ -2,6 +2,7 @@ package com.uph23.edu.sahabattani;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView txvDaftar;
     EditText edtAkun,edtPassword;
     Button btnLogin;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         edtAkun = findViewById(R.id.edtAkun);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        realm = Realm.getDefaultInstance();
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -81,13 +84,15 @@ public class LoginActivity extends AppCompatActivity {
     private void loginUser(){
         String username = edtAkun.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
-        Realm realm = Realm.getDefaultInstance();
         User user = realm.where(User.class).equalTo("username",username).findFirst();
 
         if(user != null){
             if(user.getPassword().equals(password)){
+                SharedPreferences prefs = getSharedPreferences("MyApp",MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("userid",user.getUserid());
+                editor.apply();
                 toDashboard();
-                finish();
             }
             else{
                 Toast.makeText(this, "Password salah", Toast.LENGTH_SHORT).show();

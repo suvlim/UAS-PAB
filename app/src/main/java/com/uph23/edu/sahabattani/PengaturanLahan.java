@@ -3,6 +3,7 @@ package com.uph23.edu.sahabattani;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -29,6 +30,7 @@ public class PengaturanLahan extends AppCompatActivity {
     LahanAdapter adapter;
     ListView listView;
     FloatingActionButton fabTambahLahan;
+    ImageView imvikonsensor;
     ArrayList<Lahan> lahanArrayList;
 
     @Override
@@ -99,6 +101,12 @@ public class PengaturanLahan extends AppCompatActivity {
             intent.putExtra("lahanId", selectedLahan.getId());
             startActivity(intent);
         });
+
+        //Pindah Ke Halaman Atur Sensor
+        imvikonsensor = findViewById(R.id.imvikonsensor);
+        imvikonsensor.setOnClickListener(v -> {
+            toTambahSensor();
+        });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -129,6 +137,10 @@ public class PengaturanLahan extends AppCompatActivity {
 
     public void toTambahLahan(){
         Intent intent = new Intent(this,TambahLahan.class);
+        startActivity(intent);
+    }
+    public void toTambahSensor(){
+        Intent intent = new Intent(this,AturSensor.class);
         startActivity(intent);
     }
 

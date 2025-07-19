@@ -1,6 +1,7 @@
 package com.uph23.edu.sahabattani;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -26,11 +27,20 @@ public class TambahLahan extends AppCompatActivity {
     EditText edtLokasiLahan, edtNamaLahan;
     ImageView imvtutup;
     Button btnTambahLahan;
+    int userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah_lahan);
+
+        SharedPreferences prefs = getSharedPreferences("MyApp",MODE_PRIVATE);
+        userid = prefs.getInt("userid",-1);
+        if(userid == -1){
+            Toast.makeText(this, "Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivity(intent);
+        }
 
         //Pengaturan Bottom NavBar
         BottomNavigationView btmNav = findViewById(R.id.bottom_nav);
@@ -79,6 +89,7 @@ public class TambahLahan extends AppCompatActivity {
         });
     }
 
+
     public void toPengaturanLahan(){
         Intent intent = new Intent(this,PengaturanLahan.class);
         startActivity(intent);
@@ -90,6 +101,7 @@ public class TambahLahan extends AppCompatActivity {
         String lokasiLahan = edtLokasiLahan.getText().toString();
         intent.putExtra("namaLahan", namaLahan);
         intent.putExtra("lokasiLahan", lokasiLahan);
+        intent.putExtra("userid",userid);
         startActivity(intent);
     }
 

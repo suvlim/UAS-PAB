@@ -49,7 +49,7 @@
                 android:layout_gravity="center"
                 android:textSize="6pt"
                 android:textColor="@color/black"
-                android:text="500 ml"/>
+                android:text="Padi"/>
         </LinearLayout>
 
 
