@@ -177,6 +177,11 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
+    public void toLogin(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onDestroy() {
         // Untuk close realm

@@ -36,6 +36,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="96dp"
+                        android:layout_marginTop="70dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingBottom="5dp">
@@ -355,7 +356,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:background="@color/dark_green"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
