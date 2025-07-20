@@ -205,7 +205,7 @@ public class DetailLahan extends AppCompatActivity {
         Intent intent = new Intent(this,PengaturanLahan.class);
         startActivity(intent);
     }
-//Digunakan untuk mengupdate data setelah panen
+    //Digunakan untuk mengupdate data setelah panen
     private void tampilkanDataLahan() {
         if (lahan != null) {
             txvJenisTanaman.setText("Jenis Tanaman: " + (lahan.getJenisTanaman() != null ? lahan.getJenisTanaman() : "-"));

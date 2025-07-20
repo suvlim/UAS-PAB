@@ -1,5 +1,6 @@
 package com.uph23.edu.sahabattani;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -7,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +43,9 @@ public class EditLahan extends AppCompatActivity {
     MaterialButton btn_padi, btn_jagung;
     TextView txvNamaLahan, txvLokasiLahan, txvEstimasiPanen, txv_prediksi_panen;
 
+    ImageView imgBack;
+
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +95,8 @@ public class EditLahan extends AppCompatActivity {
         txvLokasiLahan = findViewById(R.id.txvLokasiLahan);
         txvEstimasiPanen = findViewById(R.id.txvEstimasiPanen);
         txv_prediksi_panen = findViewById(R.id.txv_prediksi_panen);
+        imgBack = findViewById(R.id.imgBack);
+
 
         //Ambil Data dan Tampilkan Nama Serta Lokasi Sawah
         txvNamaLahan.setText("Lahan Sawah " + lahan.getNamaLahan());
@@ -126,6 +133,11 @@ public class EditLahan extends AppCompatActivity {
 
         //Set Kelembapan Tanah
         kelembapanTanah = edt_kelembapan_tanah.getText().toString();
+
+        imgBack.setOnClickListener(v -> {
+            toDetailLahan();
+        });
+
 
         //Calonder (date Picker)
         edtAwalPenanaman.setOnClickListener(view -> {
@@ -192,6 +204,10 @@ public class EditLahan extends AppCompatActivity {
 
     public void toPengaturanLahan() {
         Intent intent = new Intent(this, PengaturanLahan.class);
+        startActivity(intent);
+    }
+    public void toDetailLahan() {
+        Intent intent = new Intent(this, DetailLahan.class);
         startActivity(intent);
     }
 

@@ -5,11 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@android:color/white"
     tools:context=".laporanActivity">
-
-
     <ScrollView
         android:id="@+id/scrollViewContent"
         android:layout_width="match_parent"
@@ -17,262 +14,262 @@
         android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@color/forest_green"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/txvStatistik"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="15dp"
+                android:paddingTop="7dp"
+                android:text="Statistik"
+                android:textColor="@color/white"
+                android:textSize="8pt"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:id="@+id/weather_icon"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:src="@drawable/sun"
+                android:paddingTop="20dp"/>
+
+            <TextView
+                android:id="@+id/txvSuhu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="28 °C"
+                android:textColor="@android:color/black"
+                android:textSize="36sp"
+                android:textAlignment="center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txvDeskripsiSuhu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Cerah Berawan"
+                android:textColor="@android:color/black"
+                android:textAlignment="center"
+                android:textSize="16sp" />
 
             <LinearLayout
+                android:id="@+id/weather_details_layout"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:background="@color/forest_green"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/txvStatistik"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="7dp"
-                    android:text="Statistik"
-                    android:textColor="@color/white"
-                    android:textSize="8pt"
-                    android:textStyle="bold" />
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="Kelembapan"
+                        android:src="@drawable/water1"
+                        app:tint="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Kelembapan"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_humidity_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="65 %"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="Angin"
+                        android:src="@drawable/wind"
+                        app:tint="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Angin"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_wind_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12 km/h"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="Hujan"
+                        android:src="@drawable/rainy"
+                        app:tint="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Hujan"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_rain_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20 %"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="70dp">
-
-                <ImageView
-                    android:id="@+id/weather_icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:src="@drawable/sun"
-                    android:paddingTop="20dp"/>
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txvSuhu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="28 °C"
-                    android:textColor="@android:color/black"
-                    android:textSize="36sp"
-                    android:textAlignment="center"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txvDeskripsiSuhu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Cerah Berawan"
-                    android:textColor="@android:color/black"
-                    android:textAlignment="center"
-                    android:textSize="16sp" />
-
-                <LinearLayout
-                    android:id="@+id/weather_details_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:contentDescription="Kelembapan"
-                            android:src="@drawable/water1"
-                            app:tint="@android:color/black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Kelembapan"
-                            android:textColor="@android:color/black"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/tv_humidity_percentage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="65 %"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:contentDescription="Angin"
-                            android:src="@drawable/wind"
-                            app:tint="@android:color/black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Angin"
-                            android:textColor="@android:color/black"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/tv_wind_speed"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="12 km/h"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:contentDescription="Hujan"
-                            android:src="@drawable/rainy"
-                            app:tint="@android:color/black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Hujan"
-                            android:textColor="@android:color/black"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/tv_rain_percentage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="20 %"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/txvriwayatirigasi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="Riwayat Irigasi"
-                        android:textColor="@color/forest_green"
-                        android:textSize="20sp"
-                        android:paddingRight="45dp"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnernamalahan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="23dp"/>
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/empty_irigasi_view"
+                    android:id="@+id/txvriwayatirigasi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tidak ada data irigasi untuk lahan."
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/txvriwayatirigasi"
-                    android:padding="16dp"
-                    android:gravity="center"
-                    android:visibility="gone" />
-
-                <ListView
-                    android:id="@+id/lsvIrigasi"
-                    android:layout_width="match_parent"
-                    android:layout_height="199dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
                     android:layout_marginBottom="16dp"
-                    android:text="Kelembapan Tanah"
+                    android:text="Riwayat Irigasi"
                     android:textColor="@color/forest_green"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:paddingRight="45dp"
+                    android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:orientation="horizontal">
-
-                    <Spinner
-                        android:id="@+id/spinnerlahan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/empty_chart_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tidak ada data kelembapan untuk ditampilkan."
-                    android:layout_centerHorizontal="true"
-                    android:padding="16dp"
-                    android:gravity="center"
-                    android:visibility="gone" />
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/chart_humidity"
+                <Spinner
+                    android:id="@+id/spinnernamalahan"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:background="@android:color/white" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="23dp"/>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+            <TextView
+                android:id="@+id/empty_irigasi_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tidak ada data irigasi untuk lahan."
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/txvriwayatirigasi"
+                android:padding="16dp"
+                android:gravity="center"
+                android:visibility="gone" />
 
+            <ListView
+                android:id="@+id/lsvIrigasi"
+                android:layout_width="match_parent"
+                android:layout_height="199dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Kelembapan Tanah"
+                android:textColor="@color/forest_green"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinnerlahan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/empty_chart_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tidak ada data kelembapan untuk ditampilkan."
+                android:layout_centerHorizontal="true"
+                android:padding="16dp"
+                android:gravity="center"
+                android:visibility="gone" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart_humidity"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:background="@color/dark_green"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"

@@ -60,7 +60,15 @@ public class laporanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laporan);
         // Initialize Realm
-        realm = Realm.getDefaultInstance();
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("default.realm")
+                .schemaVersion(1)
+                .allowWritesOnUiThread(true)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
+        realm = Realm.getDefaultInstance(); // pakai field classrealm = Realm.getDefaultInstance();
 
         // Initialize UI components
         spinnerLahanIrigasi = findViewById(R.id.spinnernamalahan);

@@ -65,7 +65,15 @@ public class PengaturanLahan extends AppCompatActivity {
             }
             return false;
         });
-        realm = Realm.getDefaultInstance();
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("default.realm")
+                .schemaVersion(1)
+                .allowWritesOnUiThread(true)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
+        realm = Realm.getDefaultInstance(); // pakai field class
         // Inisialisasi ListView
         listView = findViewById(R.id.lsvLahan);
 

@@ -16,10 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uph23.edu.sahabattani.adapter.LahanAdapter;
 import com.uph23.edu.sahabattani.adapter.Monitoring;
 import com.uph23.edu.sahabattani.model.Lahan;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 
@@ -50,9 +52,6 @@ public class DashboardActivity extends AppCompatActivity {
         btndetailcuaca = findViewById(R.id.btndetailcuaca);
         txvnamaPanenLahan = findViewById(R.id.txvnamaPanenLahan);
         txvNamaUser = findViewById(R.id.txvNamaUser);
-
-
-
 
 
         //Pengaturan Bottom NavBar
@@ -96,10 +95,28 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        realm = Realm.getDefaultInstance();
+        // Inisialisasi Realm
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("default.realm")
+                .schemaVersion(1)
+                .allowWritesOnUiThread(true)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
+        realm = Realm.getDefaultInstance(); // pakai field class
 
-        // Temukan RecyclerView
+        // Inisialisasi ListView
         rvMonitoring = findViewById(R.id.rvMonitoring);
+
+        // Ambil data dari Realm
+        RealmResults<Lahan> results = realm.where(Lahan.class).findAll();
+        lahanList = new ArrayList<>(realm.copyFromRealm(results));
+
+        // Inisialisasi dan set Adapter
+        adapter = new Monitoring(this, lahanList);
+        rvMonitoring .setAdapter(adapter);
+
 
         // Ambil data lahan dari Realm
         realm.where(Lahan.class).findAllAsync().addChangeListener(lahans -> {
@@ -186,7 +203,7 @@ public class DashboardActivity extends AppCompatActivity {
         if (lahanList != null && !lahanList.isEmpty()) {
             for (Lahan lahan : lahanList) {
                 int sisaHari = hitungSisaHariPanen(lahan.getEstimasiPanen());
-                if (sisaHari >= 0 && sisaHari < sisaHariTerdekat) {
+                if (sisaHari > 0 && sisaHari < sisaHariTerdekat) {
                     sisaHariTerdekat = sisaHari;
                     lahanTerdekat = lahan;
                 }

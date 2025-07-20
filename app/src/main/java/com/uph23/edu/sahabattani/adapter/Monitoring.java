@@ -148,5 +148,9 @@ public class Monitoring extends RecyclerView.Adapter<Monitoring.ViewHolder> {
         }
         return rata2;
     }
+    public void updateData(List<Lahan> newList) {
+        this.lahanList = newList;
+        notifyDataSetChanged();
+    }
 
 }
