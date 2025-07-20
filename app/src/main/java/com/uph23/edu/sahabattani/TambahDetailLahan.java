@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ public class TambahDetailLahan extends AppCompatActivity {
     EditText edtAwalPenanaman, edt_kelembapan_tanah;
     Button btn_simpan;
     MaterialButton btn_padi, btn_jagung;
+    ImageView imgBack;
     TextView txvNamaLahan, txvLokasiLahan, txvEstimasiPanen, txv_prediksi_panen;
 
     @Override
@@ -85,6 +88,7 @@ public class TambahDetailLahan extends AppCompatActivity {
         txvLokasiLahan = findViewById(R.id.txvLokasiLahan);
         txvEstimasiPanen = findViewById(R.id.txvEstimasiPanen);
         txv_prediksi_panen = findViewById(R.id.txv_prediksi_panen);
+        imgBack = findViewById(R.id.imgBack);
 
         //Masukkan Intent Nama dan Lokasi dari Tambah Lahan dan Set Sebagai Keterangan Di Atas
         String namaLahan = getIntent().getStringExtra("namaLahan");
@@ -118,6 +122,12 @@ public class TambahDetailLahan extends AppCompatActivity {
             btn_padi.setTextColor(warnaTextDefault);
             btn_jagung.setIconTint(ColorStateList.valueOf(Color.WHITE));
             btn_padi.setIconTint(ColorStateList.valueOf(Color.BLACK));
+        });
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toTambahLahan();
+            }
         });
 
         //Set Kelembapan Tanah
@@ -188,6 +198,10 @@ public class TambahDetailLahan extends AppCompatActivity {
     public void toPengaturanLahan() {
     Intent intent = new Intent(this, PengaturanLahan.class);
     startActivity(intent);
+}
+public void toTambahLahan(){
+        Intent intent = new Intent(this,TambahLahan.class);
+        startActivity(intent);
 }
 
 private boolean validasiData() {
