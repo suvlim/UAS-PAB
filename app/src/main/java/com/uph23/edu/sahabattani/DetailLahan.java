@@ -45,7 +45,7 @@ public class DetailLahan extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_detail_lahan);
-        Realm.init(this);
+
         //Pengaturan Bottom NavBar
         BottomNavigationView btmNav = findViewById(R.id.bottom_nav);
         //Set Halaman Lahan

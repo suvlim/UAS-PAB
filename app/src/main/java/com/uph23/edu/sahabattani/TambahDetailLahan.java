@@ -48,7 +48,6 @@ public class TambahDetailLahan extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_tambah_detail_lahan);
 
-        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
         //Pengaturan Bottom NavBar

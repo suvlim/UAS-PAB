@@ -32,15 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        Realm.init(this); // 'this' refers to the application context
 
-        // Optional: Configure Realm (e.g., set schema version, allow deletions)
-        RealmConfiguration config = new RealmConfiguration.Builder()
-                .name("sahabattani.realm") // Name of your Realm file
-                .schemaVersion(1) // Increment this if your schema changes
-                .allowWritesOnUiThread(true) // Consider carefully for production
-                .build();
-        Realm.setDefaultConfiguration(config);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -49,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         edtAkun = findViewById(R.id.edtAkun);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
 

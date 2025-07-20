@@ -74,14 +74,7 @@ public class AturSensor extends AppCompatActivity {
             return insets;
 
         });
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder()
-                .name("default.realm")
-                .schemaVersion(1)
-                .allowWritesOnUiThread(true) // sementara aktifkan untuk demo
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(config);
+
         Realm realm = Realm.getDefaultInstance();
         // Buat daftar gabungan untuk header dan sensor
         final ArrayList<Object> dataList = new ArrayList<>();

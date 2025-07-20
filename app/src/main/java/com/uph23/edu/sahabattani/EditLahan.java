@@ -47,7 +47,6 @@ public class EditLahan extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_tambah_detail_lahan);
 
-        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
         // Ambil ID lahan dari intent

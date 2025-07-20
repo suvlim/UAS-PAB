@@ -96,8 +96,6 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        // Inisialisasi Realm
-        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
         // Temukan RecyclerView

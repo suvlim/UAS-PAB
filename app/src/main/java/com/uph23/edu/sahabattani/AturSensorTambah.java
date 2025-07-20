@@ -45,13 +45,6 @@ public class AturSensorTambah extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_atur_sensor_tambah);
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder()
-                .schemaVersion(1) // gunakan versi yang lebih tinggi atau sama
-                .deleteRealmIfMigrationNeeded() // aman untuk development, hapus data jika ada perubahan skema
-                .build();
-
-        Realm.setDefaultConfiguration(config);
         //Pengaturan Bottom NavBar
         BottomNavigationView btmNav = findViewById(R.id.bottom_nav);
         //Set Halaman Lahan
