@@ -4,139 +4,369 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.uph23.edu.sahabattani.adapter.IrigasiAdapter;
+import com.uph23.edu.sahabattani.model.Irigasi;
+import com.uph23.edu.sahabattani.model.Lahan;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 public class laporanActivity extends AppCompatActivity {
+    private Realm realm;
+    private Spinner spinnerLahanIrigasi; // Spinner pertama
+    private Spinner spinnerLahanChart;    // Spinner kedua
+    private ListView lsvIrigasi;
+    private String selectedLahan;
+    private IrigasiAdapter irigasiAdapter;
+    private List<Irigasi> irigasiList;
+    private RealmResults<Lahan> lahanList;
+    private LineChart lineChart;
+    private TextView emptyIrigasiView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laporan);
 
-        //Pengaturan Bottom NavBar
-        BottomNavigationView btmNav = findViewById(R.id.bottom_navigation);
-        //Set Halaman Statistik
+        // Initialize Realm
+        realm = Realm.getDefaultInstance();
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("default.realm")
+                .schemaVersion(1)
+                .allowWritesOnUiThread(true) // sementara aktifkan untuk demo
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
+
+        // Initialize UI components
+        spinnerLahanIrigasi = findViewById(R.id.spinnernamalahan);
+        spinnerLahanChart = findViewById(R.id.spinnerlahan);
+        lsvIrigasi = findViewById(R.id.lsvIrigasi);
+        lineChart = findViewById(R.id.chart_humidity);
+        emptyIrigasiView = findViewById(R.id.empty_irigasi_view);
+
+        lsvIrigasi.setEmptyView(emptyIrigasiView);
+
+        // Setup Bottom Navigation
+        BottomNavigationView btmNav = findViewById(R.id.bottom_nav);
         btmNav.setSelectedItemId(R.id.navigation_statistik);
         btmNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.navigation_statistik) {
                 return true;
-                //Pindah ke halaman Dashboard
             } else if (itemId == R.id.navigation_home) {
                 startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                 overridePendingTransition(0, 0);
                 return true;
-                //Pindah ke halaman pengaturan lahan
             } else if (itemId == R.id.navigation_lahan) {
-                startActivity(new Intent(getApplicationContext(), laporanActivity.class));
+                startActivity(new Intent(getApplicationContext(), PengaturanLahan.class));
                 overridePendingTransition(0, 0);
                 return true;
             }
             return false;
         });
 
-        // Deklarasi lokal
-        LineChart chartHumidity = findViewById(R.id.chart_humidity);
+        lahanList = realm.where(Lahan.class).findAll();
+        irigasiList = generateIrigasiList();
+        loadSpinnerLahan();
+        loadListViewIrigasi();
+        loadChart();
 
-        // Konfigurasi chart
-        if (chartHumidity == null) {
-            Log.e("laporanActivity", "LineChart is null! Check your activity_laporan.xml and ID. Time: 00:27 WIB, 19 Jul 2025");
-        } else {
-            Log.d("laporanActivity", "LineChart found successfully. Time: 00:27 WIB, 19 Jul 2025");
-            chartHumidity.getDescription().setEnabled(false); // Hilangkan deskripsi
-            chartHumidity.setTouchEnabled(true); // Aktifkan interaksi
-            chartHumidity.setPinchZoom(true); // Aktifkan pinch zoom
+        // Setup Spinner listeners
+        spinnerLahanIrigasi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedLahan = parent.getItemAtPosition(position).toString();
+                updateListView(selectedLahan);
 
-            try {
-                updateChart(chartHumidity, "Lahan A");
-            } catch (Exception e) {
-                Log.e("laporanActivity", "Error updating chart: " + e.getMessage() + ". Time: 00:27 WIB, 19 Jul 2025");
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedLahan = null;
+            }
+        });
+        spinnerLahanChart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedLahan = parent.getItemAtPosition(position).toString();
+                updateChart(lineChart,selectedLahan);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedLahan = null;
+            }
+        });
+    }
+
+    private void loadSpinnerLahan() {
+        lahanList = realm.where(Lahan.class).findAll();
+        List<String> lahanNames = new ArrayList<>();
+
+            if (lahanList.isEmpty()) {
+                Toast.makeText(this, "Tidak ada lahan yang terdaftar", Toast.LENGTH_SHORT).show();
+            } else {
+                for (Lahan l : lahanList) {
+                    lahanNames.add(l.getNamaLahan());
+                }
+            }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, lahanNames);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLahanIrigasi.setAdapter(adapter);
+        spinnerLahanChart.setAdapter(adapter);
+        // Set initial selection for both spinners based on whether lahan exist
+        if (lahanList.isEmpty()) {
+            spinnerLahanIrigasi.setSelection(0); // Select "Tidak ada lahan"
+            spinnerLahanChart.setSelection(0);   // Select "Tidak ada lahan"
+        } else {
+            spinnerLahanIrigasi.setSelection(0); // Select the first actual lahan
+            spinnerLahanChart.setSelection(0);   // Select the first actual lahan
         }
     }
 
-    // Metode updateChart dengan parameter chart
+    private void loadListViewIrigasi() {
+        irigasiAdapter = new IrigasiAdapter(this, new ArrayList<>(),realm);
+        lsvIrigasi.setAdapter(irigasiAdapter);
+        // Update with initial selection or all data
+        if (selectedLahan != null) {
+            updateListView(selectedLahan);
+        } else {
+            updateListView(null); // Show all Irigasi if no Lahan selected
+        }
+    }
+
+    private void updateListView(String selectedLahanName) {
+        ArrayList<Irigasi> filteredList = new ArrayList<>();
+        if (selectedLahanName != null) {
+            Lahan selectedLahan = realm.where(Lahan.class).equalTo("namaLahan", selectedLahanName).findFirst();
+            if (selectedLahan != null) {
+                for (Irigasi irigasi : irigasiList) {
+                    if (irigasi.getLahanId() == selectedLahan.getId()) {
+                        filteredList.add(irigasi);
+                    }
+                }
+            }
+        } else {
+            filteredList.addAll(irigasiList); // Show all Irigasi if no Lahan selected
+        }
+
+        irigasiAdapter.clear();
+        irigasiAdapter.addAll(filteredList);
+        irigasiAdapter.notifyDataSetChanged();
+
+        // Show a message if the list is empty
+        if (filteredList.isEmpty()) {
+            Toast.makeText(this, "Tidak ada data irigasi untuk lahan ini", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private ArrayList<Irigasi> generateIrigasiList() {
+        ArrayList<Irigasi> irigasiList = new ArrayList<>();
+        Random random = new Random();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM",new Locale("id", "ID"));
+        // Generate exactly 2 Irigasi records per Lahan
+        for (Lahan lahan : lahanList) {
+            for (int i = 0; i < 2; i++) {
+                Irigasi irigasi = new Irigasi();
+                irigasi.setLahanId(lahan.getId());
+                long currentTime = System.currentTimeMillis();
+                long randomOffset = random.nextInt(7) * 24 * 60 * 60 * 1000L; // Up to 7 days ago
+                irigasi.setTanggalIrigasi(sdf.format(new Date(currentTime - randomOffset)));
+                irigasi.setDurasiIrigasi(random.nextInt(56) + 5); // 5–60 minutes
+                irigasi.setVolumeIrigasi(random.nextInt(91) + 10); // 10–100 liters
+                irigasiList.add(irigasi);
+            }
+        }
+        return irigasiList;
+    }
+    private void loadChart() {
+        if (lahanList.isEmpty() || selectedLahan == null || selectedLahan.equals("Tidak ada lahan")) {
+            displayNoChartDataMessage(); // Panggil metode untuk menampilkan pesan kosong
+            return; // Hentikan eksekusi metode loadChart
+        }
+        // Data dummy untuk kelembapan tanah
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        Random random = new Random();
+
+        // Siapkan data dummy untuk 7 hari terakhir
+        List<String> labels = new ArrayList<>();
+        List<Entry> entries = new ArrayList<>();
+        int lahanId = 1; // Default lahanId, akan disesuaikan berdasarkan spinner
+
+        for (int i = 0; i < 7; i++) {
+            cal.add(Calendar.DAY_OF_MONTH, -i);
+            String tanggal = sdf.format(cal.getTime());
+            labels.add(tanggal);
+            // Tambahkan variasi kecil berdasarkan lahanId untuk membedakan data
+            int baseKelembapan = random.nextInt(71) + 30; // 30-100%
+            int variasi = (lahanId % 3) * 5; // Variasi kecil berdasarkan lahanId
+            int kelembapan = Math.min(100, baseKelembapan + variasi); // Pastikan tidak melebihi 100%
+            entries.add(new Entry(i, kelembapan)); // i sebagai indeks x
+        }
+
+        // Konfigurasi LineChart
+        LineDataSet dataSet = new LineDataSet(entries, "Kelembapan Tanah (%)");
+        dataSet.setFillAlpha(110);
+        dataSet.setColor(Color.BLUE); // Warna garis
+        dataSet.setLineWidth(2f);
+        dataSet.setValueTextSize(10f);
+        dataSet.setDrawFilled(false); // Opsional: isi area di bawah garis
+
+        LineData lineData = new LineData(dataSet);
+        lineChart.setData(lineData);
+
+        // Kustomisasi chart
+        lineChart.getDescription().setEnabled(false); // Nonaktifkan deskripsi
+        lineChart.getLegend().setEnabled(true); // Aktifkan legenda
+        lineChart.getAxisLeft().setAxisMaximum(100f); // Maksimum 100%
+        lineChart.getAxisLeft().setAxisMinimum(0f); // Minimum 0%
+        lineChart.getAxisRight().setEnabled(false); // Nonaktifkan sumbu kanan
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels)); // Set label tanggal
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setLabelCount(7); // Tampilkan semua 7 hari
+
+        // Tambahkan judul
+        lineChart.setExtraOffsets(0f, 0f, 0f, 10f); // Tambah ruang untuk judul
+        lineChart.getLegend().setTextSize(12f);
+        lineChart.getLegend().setForm(Legend.LegendForm.LINE);
+
+        // Refresh chart
+        lineChart.invalidate(); // Perbarui tampilan chart
+    }
+
     private void updateChart(LineChart chart, String lahan) {
         if (chart == null) {
-            Log.e("laporanActivity", "Chart is null, cannot update. Time: 00:27 WIB, 19 Jul 2025");
+            Log.e("laporanActivity", "Chart is null, cannot update.");
             return;
         }
+        if (lahanList.isEmpty() || selectedLahan == null || selectedLahan.equals("Tidak ada lahan")) {
+            displayNoChartDataMessage(); // Panggil metode untuk menampilkan pesan kosong
+            return; // Hentikan eksekusi metode loadChart
+        }
+
 
         ArrayList<Entry> entries = new ArrayList<>();
         String dataLabel;
 
-        if ("Lahan A".equals(lahan)) {
-            // Menambahkan lebih banyak data dummy untuk Lahan A
-            entries.add(new Entry(0, 65));  // Hari 1: 65%
-            entries.add(new Entry(1, 70));  // Hari 2: 70%
-            entries.add(new Entry(2, 62));  // Hari 3: 62%
-            entries.add(new Entry(3, 68));  // Hari 4: 68%
-            entries.add(new Entry(4, 55));  // Hari 5: 55%
-            dataLabel = "Kelembapan Lahan A (%)";
-        } else if ("Lahan B".equals(lahan)) {
-            // Menambahkan lebih banyak data dummy untuk Lahan B
-            entries.add(new Entry(0, 55));  // Hari 1: 55%
-            entries.add(new Entry(1, 60));  // Hari 2: 60%
-            entries.add(new Entry(2, 58));  // Hari 3: 58%
-            entries.add(new Entry(3, 63));  // Hari 4: 63%
-            entries.add(new Entry(4, 50));  // Hari 5: 50%
-            dataLabel = "Kelembapan Lahan B (%)";
+        // Generate random humidity data for the chart
+        Random random = new Random();
+        if (lahanList.where().equalTo("namaLahan", lahan).findFirst() != null) {
+            for (int i = 0; i < 5; i++) {
+                entries.add(new Entry(i, random.nextInt(41) + 50)); // 50–90% humidity
+            }
+            dataLabel = "Kelembapan " + lahan + " (%)";
         } else {
-            Log.w("laporanActivity", "Lahan tidak dikenal: " + lahan + ". Time: 00:27 WIB, 19 Jul 2025");
+            Log.w("laporanActivity", "Lahan tidak dikenal: " + lahan);
             return;
-        }
-
-        Log.d("laporanActivity", "Entries created with size: " + entries.size() + ". Time: 00:27 WIB, 19 Jul 2025");
-        for (Entry entry : entries) {
-            Log.d("laporanActivity", "Entry - X: " + entry.getX() + ", Y: " + entry.getY() + ". Time: 00:27 WIB, 19 Jul 2025");
         }
 
         LineData lineData = createLineData(entries, dataLabel, lahan);
         if (lineData != null && lineData.getDataSetCount() > 0) {
-            Log.d("laporanActivity", "LineData created with " + lineData.getDataSetCount() + " datasets. Time: 00:27 WIB, 19 Jul 2025");
             try {
-                chart.clear(); // Hapus data lama
+                chart.clear();
                 chart.setData(lineData);
-                chart.invalidate(); // Pastikan chart disegarkan
-                Log.d("laporanActivity", "Chart data set and invalidated. Time: 00:27 WIB, 19 Jul 2025");
+                chart.invalidate();
+                Log.d("laporanActivity", "Chart data set and invalidated.");
             } catch (Exception e) {
-                Log.e("laporanActivity", "Error setting chart data: " + e.getMessage() + ". Time: 00:27 WIB, 19 Jul 2025");
+                Log.e("laporanActivity", "Error setting chart data: " + e.getMessage());
             }
         } else {
-            Log.e("laporanActivity", "LineData is null or has no datasets! Time: 00:27 WIB, 19 Jul 2025");
+            Log.e("laporanActivity", "LineData is null or has no datasets!");
         }
     }
 
-    // Metode terpisah untuk membuat LineData
     private LineData createLineData(ArrayList<Entry> entries, String dataLabel, String lahan) {
         if (entries == null || entries.isEmpty()) {
-            Log.e("laporanActivity", "Entries is null or empty! Time: 00:27 WIB, 19 Jul 2025");
+            Log.e("laporanActivity", "Entries is null or empty!");
             return null;
         }
 
-        Log.d("laporanActivity", "Creating LineDataSet with label: " + dataLabel + ". Time: 00:27 WIB, 19 Jul 2025");
         try {
             LineDataSet dataSet = new LineDataSet(entries, dataLabel);
-            dataSet.setColor("Lahan A".equals(lahan) ? Color.BLUE : Color.RED);
+            dataSet.setColor(Color.BLUE);
             dataSet.setValueTextColor(Color.BLACK);
-            dataSet.setDrawValues(true); // Tampilkan nilai
-            dataSet.setLineWidth(2f);    // Lebar garis untuk visibilitas lebih baik
-            dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER); // Mode kurva untuk tampilan yang lebih halus
+            dataSet.setDrawValues(true);
+            dataSet.setLineWidth(2f);
+            dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-            Log.d("laporanActivity", "LineDataSet created with " + entries.size() + " entries. Time: 00:27 WIB, 19 Jul 2025");
+            Log.d("laporanActivity", "LineDataSet created with " + entries.size() + " entries.");
             return new LineData(dataSet);
         } catch (Exception e) {
-            Log.e("laporanActivity", "Error creating LineDataSet: " + e.getMessage() + ". Time: 00:27 WIB, 19 Jul 2025");
+            Log.e("laporanActivity", "Error creating LineDataSet: " + e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item){
+        int id = item.getItemId();
+        if (id == R.id.logout) {
+            DialogKonfirmasi dialog = new DialogKonfirmasi(this, () -> {
+                Toast.makeText(this, "Logout Berhasil", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            });
+            dialog.show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void displayNoChartDataMessage(){
+        lineChart.clear();
+        lineChart.invalidate();
+    }
+
+    @Override
+    protected void onDestroy () {
+        super.onDestroy();
+        if (realm != null && !realm.isClosed()) {
+            realm.close();
         }
     }
 }

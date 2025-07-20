@@ -2,9 +2,12 @@ package com.uph23.edu.sahabattani;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -142,6 +145,27 @@ public class PengaturanLahan extends AppCompatActivity {
     public void toTambahSensor(){
         Intent intent = new Intent(this,AturSensor.class);
         startActivity(intent);
+    }
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item){
+        int id = item.getItemId();
+        if (id == R.id.logout) {
+            DialogKonfirmasi dialog = new DialogKonfirmasi(this, () -> {
+                Toast.makeText(this, "Logout Berhasil", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            });
+            dialog.show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

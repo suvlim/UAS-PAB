@@ -40,7 +40,6 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -52,6 +51,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("androidx.core:core:1.12.0")
     implementation("io.realm:realm-android-library:10.15.1")
     implementation(libs.androidx.navigation.fragment)

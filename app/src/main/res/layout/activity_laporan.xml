@@ -8,363 +8,260 @@
     android:background="@android:color/white"
     tools:context=".laporanActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/forest_green"
-        app:titleTextColor="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Laporan &amp; Statistik"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_gravity="start" />
-    </androidx.appcompat.widget.Toolbar>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@color/forest_green"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp">
 
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                android:id="@+id/txvStatistik"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="15dp"
+                android:paddingTop="7dp"
+                android:text="Statistik"
+                android:textColor="@color/white"
+                android:textSize="8pt"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ImageView
+                android:id="@+id/weather_icon"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/White_gray"
-                android:padding="20dp">
-
-                <ImageView
-                    android:id="@+id/weather_icon"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/sun"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="28 °C"
-                    android:textColor="@android:color/black"
-                    android:textSize="36sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@id/weather_icon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_weather_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cerah Berawan"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:layout_marginTop="4dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_temperature"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <LinearLayout
-                    android:id="@+id/weather_details_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_weather_description"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:background="@color/White_gray"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/water1"
-                            android:contentDescription="Kelembapan"
-                            app:tint="@android:color/black" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Kelembapan"
-                            android:textColor="@android:color/black"
-                            android:textSize="12sp"
-                            android:layout_marginTop="4dp" />
-                        <TextView
-                            android:id="@+id/tv_humidity_percentage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="65 %"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/wind"
-                            android:contentDescription="Angin"
-                            app:tint="@android:color/black" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Angin"
-                            android:textColor="@android:color/black"
-                            android:textSize="12sp"
-                            android:layout_marginTop="4dp" />
-                        <TextView
-                            android:id="@+id/tv_wind_speed"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="12 km/h"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/rainy"
-                            android:contentDescription="Hujan"
-                            app:tint="@android:color/black" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hujan"
-                            android:textColor="@android:color/black"
-                            android:textSize="12sp"
-                            android:layout_marginTop="4dp" />
-                        <TextView
-                            android:id="@+id/tv_rain_percentage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="20 %"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/weather_details_layout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_hari_ini"
-                        android:layout_width="22dp"
-                        android:layout_height="75dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/forest_green"
-                        android:text="Hari ini"
-                        android:textColor="@android:color/white"
-                        app:iconSize="25dp"
-                        android:textSize="11dp"
-                        app:cornerRadius="16dp"
-                        app:icon="@drawable/sun"
-                        app:iconGravity="textTop"
-                        app:iconPadding="5dp"
-                        app:iconTint="@android:color/white"
-                        android:singleLine="true" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_besok"
-                        android:layout_width="22dp"
-                        android:layout_height="75dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/forest_green"
-                        android:text="Besok"
-                        android:textColor="@android:color/white"
-                        app:iconSize="25dp"
-                        android:textSize="11dp"
-                        app:cornerRadius="16dp"
-                        app:icon="@drawable/cloud"
-                        app:iconGravity="textTop"
-                        app:iconPadding="5dp"
-                        app:iconTint="@android:color/white"
-                        android:singleLine="true" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_kamis"
-                        android:layout_width="22dp"
-                        android:layout_height="75dp"
-                        android:layout_weight="1"
-                        android:text="Kamis"
-                        android:textSize="11dp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="@color/forest_green"
-                        app:cornerRadius="16dp"
-                        app:icon="@drawable/storm"
-                        app:iconTint="@android:color/white"
-                        app:iconGravity="textTop"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:layout_marginEnd="8dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_jumat"
-                        android:layout_width="22dp"
-                        android:layout_height="75dp"
-                        android:layout_weight="1"
-                        android:textSize="11dp"
-                        android:text="Jumat"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="@color/forest_green"
-                        app:cornerRadius="16dp"
-                        app:icon="@drawable/rainy"
-                        app:iconTint="@android:color/white"
-                        app:iconGravity="textTop"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp" />
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="80dp"
+                android:src="@drawable/sun"
+                android:paddingTop="20dp"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/txvSuhu"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Riwayat Irigasi"
-                android:textColor="@color/forest_green"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginTop="8dp"
+                android:text="28 °C"
+                android:textColor="@android:color/black"
+                android:textSize="36sp"
+                android:textAlignment="center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txvDeskripsiSuhu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Cerah Berawan"
+                android:textColor="@android:color/black"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/weather_details_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="Kelembapan"
+                        android:src="@drawable/water1"
+                        app:tint="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Kelembapan"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_humidity_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="65 %"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="Angin"
+                        android:src="@drawable/wind"
+                        app:tint="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Angin"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_wind_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12 km/h"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="Hujan"
+                        android:src="@drawable/rainy"
+                        app:tint="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Hujan"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_rain_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20 %"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp">
+                android:orientation="horizontal">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_minggu_ini"
+                <TextView
+                    android:id="@+id/txvriwayatirigasi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Minggu ini"
-                    android:textColor="@android:color/white"
-                    android:backgroundTint="@color/forest_green"
-                    app:cornerRadius="8dp"
-                    android:layout_marginEnd="8dp" />
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Riwayat Irigasi"
+                    android:textColor="@color/forest_green"
+                    android:textSize="20sp"
+                    android:paddingRight="45dp"
+                    android:textStyle="bold" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_bulan_ini"
-                    android:layout_width="wrap_content"
+                <Spinner
+                    android:id="@+id/spinnernamalahan"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Bulan ini"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/white_green"
-                    app:strokeColor="@color/forest_green"
-                    app:strokeWidth="1dp"
-                    app:cornerRadius="8dp" />
+                    android:layout_marginTop="23dp"/>
             </LinearLayout>
+            <TextView
+                android:id="@+id/empty_irigasi_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tidak ada data irigasi untuk lahan."
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/txvriwayatirigasi"
+                android:padding="16dp"
+                android:gravity="center"
+                android:visibility="gone" />
 
             <ListView
-                android:id="@+id/irrigation_history_list"
+                android:id="@+id/lsvIrigasi"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="24dp" />
+                android:layout_height="199dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="Kelembapan Tanah"
                 android:textColor="@color/forest_green"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp" />
+                android:textStyle="bold"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_lahan_a"
-                    android:layout_width="wrap_content"
+                <Spinner
+                    android:id="@+id/spinnerlahan"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Lahan A"
-                    android:textColor="@android:color/white"
-                    android:backgroundTint="@color/forest_green"
-                    app:cornerRadius="8dp"
-                    android:layout_marginEnd="8dp" />
+                    android:layout_weight="1" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_lahan_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lahan B"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/white_green"
-                    app:strokeColor="@color/white_green"
-                    app:strokeWidth="1dp"
-                    app:cornerRadius="8dp" />
             </LinearLayout>
+            <TextView
+                android:id="@+id/empty_chart_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tidak ada data kelembapan untuk ditampilkan."
+                android:layout_centerHorizontal="true"
+                android:padding="16dp"
+                android:gravity="center"
+                android:visibility="gone" />
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chart_humidity"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:background="@android:color/white" />
-
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:background="@color/dark_green"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
