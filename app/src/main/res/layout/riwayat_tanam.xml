@@ -25,6 +25,7 @@
                     android:layout_height="wrap_content"
                     android:text="Tanggal Tanam : 01/01/2001"
                     android:textSize="6pt"
+                    android:layout_marginBottom="5dp"
                     android:textColor="@color/black" />
                 <TextView
                     android:id="@+id/txvTanggalPanen"
@@ -37,8 +38,8 @@
             </LinearLayout>
             <ImageView
                 android:id="@+id/imvGambarTanaman"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/corn"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="center"/>

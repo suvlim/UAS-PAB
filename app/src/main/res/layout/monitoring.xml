@@ -22,7 +22,7 @@
                 android:layout_weight="1"
                 android:text="Lahan Sawah"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="11pt"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -33,15 +33,16 @@
 
                 <ImageView
                     android:id="@+id/imgAir"
-                    android:layout_width="14dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:src="@drawable/water" />
 
                 <TextView
                     android:id="@+id/txvStatusAir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Optimal">
+                    android:text="Optimal"
+                    android:textSize="6pt">
                 </TextView>
             </LinearLayout>
         </LinearLayout>
@@ -51,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Desa X, Medan"
+            android:textSize="6pt"
             android:textColor="@color/black">
         </TextView>
 
@@ -100,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:text="Ditanam: 45 hari"
                 android:textColor="@color/black"
-                android:textSize="10dp">
+                android:textSize="6pt">
             </TextView>
             <TextView
                 android:id="@+id/txvEstimasiPanen"
@@ -108,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:text="Estimasi Panen: 15 hari"
                 android:textColor="@color/black"
-                android:textSize="10dp">
+                android:textSize="6pt">
             </TextView>
 
         </LinearLayout>

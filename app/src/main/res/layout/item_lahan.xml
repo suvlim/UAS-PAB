@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Lahan Sawah A"
-                android:textSize="8pt"
+                android:textSize="10pt"
                 android:textStyle="bold"
                 android:textColor="@color/white" />
             <ImageView
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="@color/white"
-                android:textSize="5pt"
+                android:textSize="6pt"
                 android:text="Desa X, Medan"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="@color/white"
-                android:textSize="5pt"
+                android:textSize="6pt"
                 android:text="Jagung"/>
         </LinearLayout>
 
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Estimasi Panen : 20 hari"
-                android:textSize="5pt"
+                android:textSize="6pt"
                 android:textColor="@color/white" />
             <LinearLayout
                 android:layout_width="wrap_content"
