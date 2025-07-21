@@ -41,6 +41,14 @@ public class LoginActivity extends AppCompatActivity {
         edtAkun = findViewById(R.id.edtAkun);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("default.realm")
+                .schemaVersion(1)
+                .allowWritesOnUiThread(true)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
         realm = Realm.getDefaultInstance();
 
 
@@ -107,7 +115,15 @@ public class LoginActivity extends AppCompatActivity {
     }
     @Override
     protected void onDestroy() {
-        Realm realm = Realm.getDefaultInstance();
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("default.realm")
+                .schemaVersion(1)
+                .allowWritesOnUiThread(true)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
+        realm = Realm.getDefaultInstance();
         super.onDestroy();
         // Close the Realm instance when the activity is destroyed
         if (realm != null) {
