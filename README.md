@@ -48,3 +48,6 @@ Tombol tambah di kanan bawah layar untuk menambahkan data lahan baru.
 Menampilkan seluruh lahan yang telah ditambahkan pengguna.
 Ikon panah di sisi kanan setiap kartu memungkinkan pengguna melihat atau mengatur detail lebih lanjut dari tiap lahan.
 Menampilkan riwayat penanaman per lahan.
+
+
+Link Google Drive App Sahabat Tani: https://drive.google.com/file/d/104-iUFttM_I_J1txtSe1cWBWtCqPchUl/view?usp=sharing
